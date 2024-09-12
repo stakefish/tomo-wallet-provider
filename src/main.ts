@@ -1,5 +1,6 @@
 import okxIcon from './icons/okx_wallet.svg'
 import unisatIcon from './icons/unisat_wallet.svg'
+import tomoIcon from './icons/tomo.png'
 import bitgetIcon from './icons/bitget-wallet.png'
 import onekeyIcon from './icons/onekey.svg'
 import imtokenIcon from './icons/imtoken.svg'
@@ -12,6 +13,7 @@ import { OneKeyWallet } from './providers/onekey_wallet'
 import { ImTokenWallet } from './providers/imtoken_wallet'
 import { KeystoneWallet } from './providers/keystone'
 import { BinanceWallet } from './providers/binance_wallet'
+import { TomoWallet } from './providers/tomo_wallet'
 
 type TomoWalletType = 'extension' | 'qrcode' | 'injected'
 
@@ -42,6 +44,14 @@ export const walletList: TomoWallet[] = [
     name: 'Unisat Wallet',
     chainType: 'bitcoin',
     connectProvider: UnisatWallet,
+    type: 'extension'
+  },
+  {
+    id: 'bitcoin_tomo',
+    img: tomoIcon,
+    name: 'Tomo Bitcoin',
+    chainType: 'bitcoin',
+    connectProvider: TomoWallet,
     type: 'extension'
   },
   {
