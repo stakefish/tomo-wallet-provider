@@ -1,1 +1,1 @@
-# tomo-wallet-provider-1
+# tomo-wallet-provider
