@@ -1,5 +1,6 @@
 import {
   Inscription,
+  InscriptionResult,
   Network,
   WalletInfo,
   WalletProvider
@@ -51,10 +52,7 @@ export class OneKeyWallet extends WalletProvider {
   }
 
   async getAddress(): Promise<string> {
-    if (!this.oneKeyWalletInfo) {
-      return this.bitcoinNetworkProvider.getAddress()
-    }
-    return this.oneKeyWalletInfo.address
+    return this.bitcoinNetworkProvider.getAddress()
   }
 
   async getPublicKeyHex(): Promise<string> {
@@ -101,8 +99,11 @@ export class OneKeyWallet extends WalletProvider {
   }
 
   getBalance = async (): Promise<number> => {
-    const result = await this.bitcoinNetworkProvider.getBalance()
-    return result
+    const network = await this.getNetwork()
+    if (network === Network.MAINNET) {
+      return await this.bitcoinNetworkProvider.getBalance()
+    }
+    return await super.getBalance()
   }
 
   pushTx = async (txHex: string): Promise<string> => {
@@ -122,7 +123,7 @@ export class OneKeyWallet extends WalletProvider {
     )
     return result
   }
-  getInscriptions(): Promise<Inscription[]> {
+  getInscriptions(cursor?: number, size?: number): Promise<InscriptionResult> {
     throw new Error('Method not implemented.')
   }
 }

@@ -18,7 +18,11 @@ import { toXOnly } from 'bitcoinjs-lib/src/psbt/bip371'
 import { pubkeyInScript } from 'bitcoinjs-lib/src/psbt/psbtutils'
 
 import { WalletError, WalletErrorType } from '../../config/errors'
-import { Inscription, Network, WalletProvider } from '../../wallet_provider'
+import {
+  InscriptionResult,
+  Network,
+  WalletProvider
+} from '../../wallet_provider'
 
 import BIP322 from './bip322'
 import { parseUnits } from '../../utils/parseUnits'
@@ -111,14 +115,6 @@ export class KeystoneWallet extends WalletProvider {
     // generate the address and public key based on the xpub
     const curentNetwork = await this.getNetwork()
     await this.switchNetwork(curentNetwork)
-    // const { address, pubkeyHex, scriptPubKeyHex } = generateP2trAddressFromXpub(
-    //   this.keystoneWaleltInfo.extendedPublicKey,
-    //   'M/0/0',
-    //   toNetwork(curentNetwork)
-    // )
-    // this.keystoneWaleltInfo.address = address
-    // this.keystoneWaleltInfo.publicKeyHex = pubkeyHex
-    // this.keystoneWaleltInfo.scriptPubKeyHex = scriptPubKeyHex
     return this
   }
 
@@ -263,6 +259,7 @@ export class KeystoneWallet extends WalletProvider {
   }
 
   async switchNetwork(network: Network) {
+    this.networkEnv = network
     const { address, pubkeyHex, scriptPubKeyHex } = generateP2trAddressFromXpub(
       this.keystoneWaleltInfo.extendedPublicKey,
       'M/0/0',
@@ -273,7 +270,7 @@ export class KeystoneWallet extends WalletProvider {
     this.keystoneWaleltInfo.scriptPubKeyHex = scriptPubKeyHex
   }
 
-  getInscriptions(): Promise<Inscription[]> {
+  getInscriptions(cursor?: number, size?: number): Promise<InscriptionResult> {
     throw new Error('Method not implemented.')
   }
   async sendBitcoin(to: string, satAmount: number) {

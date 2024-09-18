@@ -1,5 +1,6 @@
-import { Inscription, Network, WalletProvider } from '../wallet_provider'
+import { InscriptionResult, Network, WalletProvider } from '../wallet_provider'
 import { parseUnits } from '../utils/parseUnits'
+import { getAddressBalance } from '../mempool_api'
 
 const INTERNAL_NETWORK_NAMES = {
   [Network.MAINNET]: 'livenet',
@@ -50,8 +51,7 @@ export class BitgetWallet extends WalletProvider {
   }
 
   getAddress = async (): Promise<string> => {
-    let accounts = (await this.bitcoinNetworkProvider.getAccounts()) || []
-    console.log('accounts', accounts)
+    const accounts = (await this.bitcoinNetworkProvider.getAccounts()) || []
     if (!accounts?.[0]) {
       throw new Error('Bitget Wallet not connected')
     }
@@ -59,7 +59,7 @@ export class BitgetWallet extends WalletProvider {
   }
 
   getPublicKeyHex = async (): Promise<string> => {
-    let publicKey = await this.bitcoinNetworkProvider.getPublicKey()
+    const publicKey = await this.bitcoinNetworkProvider.getPublicKey()
     if (!publicKey) {
       throw new Error('Bitget Wallet not connected')
     }
@@ -105,7 +105,10 @@ export class BitgetWallet extends WalletProvider {
   }
 
   getBalance = async (): Promise<number> => {
-    return (await this.bitcoinNetworkProvider.getBalance()).total
+    return await getAddressBalance(
+      await this.getNetwork(),
+      await this.getAddress()
+    )
   }
 
   pushTx = async (txHex: string): Promise<string> => {
@@ -125,7 +128,10 @@ export class BitgetWallet extends WalletProvider {
     )
     return result
   }
-  getInscriptions(): Promise<Inscription[]> {
-    throw new Error('Method not implemented.')
+  async getInscriptions(
+    cursor?: number,
+    size?: number
+  ): Promise<InscriptionResult> {
+    return await this.bitcoinNetworkProvider.getInscriptions(cursor, size)
   }
 }

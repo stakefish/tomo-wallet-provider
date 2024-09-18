@@ -31,9 +31,23 @@ export interface UTXO {
   scriptPubKey: string
 }
 
+export interface InscriptionResult {
+  list: Inscription[]
+  total: number
+}
+
 export interface Inscription {
-  // output of the inscription in the format of `txid:vout`
   output: string
+  inscriptionId: string
+  address: string
+  offset: number
+  outputValue: number
+  location: string
+  contentType: string
+  contentLength: number
+  inscriptionNumber: number
+  timestamp: number
+  genesisTransaction: string
 }
 
 // supported networks
@@ -127,13 +141,16 @@ export abstract class WalletProvider {
    * Retrieves the inscriptions for the connected wallet.
    * @returns A promise that resolves to an array of inscriptions.
    */
-  abstract getInscriptions(): Promise<Inscription[]>
+  abstract getInscriptions(
+    cursor?: number,
+    size?: number
+  ): Promise<InscriptionResult>
 
   /**
    * Retrieves the network fees.
    * @returns A promise that resolves to the network fees.
    */
-  getNetworkFees = async (): Promise<Fees> => {
+  public async getNetworkFees(): Promise<Fees> {
     return await getNetworkFees(await this.getNetwork())
   }
 
@@ -142,7 +159,7 @@ export abstract class WalletProvider {
    * @param txHex - The hexadecimal representation of the transaction.
    * @returns A promise that resolves to a string representing the transaction ID.
    */
-  pushTx = async (txHex: string): Promise<string> => {
+  public async pushTx(txHex: string): Promise<string> {
     return await pushTx(await this.getNetwork(), txHex)
   }
 
@@ -156,7 +173,7 @@ export abstract class WalletProvider {
    * @param amount - Optional amount of funds required.
    * @returns A promise that resolves to an array of UTXOs.
    */
-  getUtxos = async (address: string, amount?: number): Promise<UTXO[]> => {
+  public async getUtxos(address: string, amount?: number): Promise<UTXO[]> {
     // mempool call
     return await getFundingUTXOs(await this.getNetwork(), address, amount)
   }
@@ -165,7 +182,7 @@ export abstract class WalletProvider {
    * Retrieves the tip height of the BTC chain.
    * @returns A promise that resolves to the block height.
    */
-  getBTCTipHeight = async (): Promise<number> => {
+  public async getBTCTipHeight(): Promise<number> {
     return await getTipHeight(await this.getNetwork())
   }
 
@@ -174,7 +191,7 @@ export abstract class WalletProvider {
    * By default, this method will return the mempool balance if not implemented by the child class.
    * @returns A promise that resolves to the balance of the wallet.
    */
-  getBalance = async (): Promise<number> => {
+  public async getBalance(): Promise<number> {
     return await getAddressBalance(
       await this.getNetwork(),
       await this.getAddress()

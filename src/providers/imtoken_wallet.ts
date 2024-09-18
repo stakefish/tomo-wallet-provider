@@ -1,5 +1,6 @@
 import {
   Inscription,
+  InscriptionResult,
   Network,
   WalletInfo,
   WalletProvider
@@ -112,14 +113,17 @@ export class ImTokenWallet extends WalletProvider {
   }
 
   getBalance = async (): Promise<number> => {
-    // return await getAddressBalance(await this.getAddress());
-    return await this.bitcoinNetworkProvider.request({
-      method: 'btc_getBalance',
-      params: [this.walletInfo?.address]
-    })
+    const network = await this.getNetwork()
+    if (network === Network.MAINNET) {
+      return await this.bitcoinNetworkProvider.request({
+        method: 'btc_getBalance',
+        params: [this.walletInfo?.address]
+      })
+    }
+    return await super.getBalance()
   }
 
-  getInscriptions(): Promise<Inscription[]> {
+  getInscriptions(cursor?: number, size?: number): Promise<InscriptionResult> {
     throw new Error('Method not implemented.')
   }
 
