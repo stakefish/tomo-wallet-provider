@@ -223,7 +223,7 @@ export async function getInscriptions(params: {
   size?: number
 }): Promise<InscriptionResult> {
   const response = await fetch(
-    `https://app.unyx.tech/api/openapi/bitcoin/inscriptions${encodeQueryString(
+    `https://apps-prod.unyx.tech/api/openapi/bitcoin/inscriptions${encodeQueryString(
       params
     )}`
   )
