@@ -71,14 +71,6 @@ export const walletList: TomoWallet[] = [
     type: 'extension'
   },
   {
-    id: 'bitcoin_keystone',
-    img: keystoneIcon,
-    name: 'Keystone Bitcoin',
-    chainType: 'bitcoin',
-    connectProvider: KeystoneWallet,
-    type: 'qrcode'
-  },
-  {
     id: 'bitcoin_imtoken',
     img: imtokenIcon,
     name: 'imToken Bitcoin',
@@ -93,6 +85,14 @@ export const walletList: TomoWallet[] = [
     chainType: 'bitcoin',
     connectProvider: BinanceWallet,
     type: 'injected'
+  },
+  {
+    id: 'bitcoin_keystone',
+    img: keystoneIcon,
+    name: 'Keystone Bitcoin',
+    chainType: 'bitcoin',
+    connectProvider: KeystoneWallet,
+    type: 'qrcode'
   }
 ]
 
