@@ -1,6 +1,7 @@
 import {
   getAddressBalance,
   getFundingUTXOs,
+  getInscriptions,
   getNetworkFees,
   getTipHeight,
   pushTx
@@ -141,10 +142,17 @@ export abstract class WalletProvider {
    * Retrieves the inscriptions for the connected wallet.
    * @returns A promise that resolves to an array of inscriptions.
    */
-  abstract getInscriptions(
+  public async getInscriptions(
     cursor?: number,
     size?: number
-  ): Promise<InscriptionResult>
+  ): Promise<InscriptionResult> {
+    return await getInscriptions({
+      address: await this.getAddress(),
+      networkType: (await this.getNetwork()).toUpperCase(),
+      cursor: cursor,
+      size: size
+    })
+  }
 
   /**
    * Retrieves the network fees.

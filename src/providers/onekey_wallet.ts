@@ -123,7 +123,4 @@ export class OneKeyWallet extends WalletProvider {
     )
     return result
   }
-  getInscriptions(cursor?: number, size?: number): Promise<InscriptionResult> {
-    throw new Error('Method not implemented.')
-  }
 }

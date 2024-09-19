@@ -1,4 +1,4 @@
-import { Fees, Network, UTXO } from './wallet_provider'
+import { Fees, InscriptionResult, Network, UTXO } from './wallet_provider'
 
 /*
     URL Construction methods
@@ -16,6 +16,28 @@ const getBaseUrl = (network: Network) => {
   } else if (network === Network.SIGNET) {
     return 'https://mempool.space/signet/api/'
   }
+}
+
+/**
+ * Encode an object as url query string parameters
+ * - includes the leading "?" prefix
+ * - example input — {key: "value", alpha: "beta"}
+ * - example output — output "?key=value&alpha=beta"
+ * - returns empty string when given an empty object
+ */
+function encodeQueryString(params: Record<string, any>) {
+  const keys = Object.keys(params)
+  return keys.length
+    ? '?' +
+        keys
+          .map(
+            (key) =>
+              encodeURIComponent(key) +
+              '=' +
+              (params[key] ? encodeURIComponent(params[key]) : '')
+          )
+          .join('&')
+    : ''
 }
 
 // URL for the address info endpoint
@@ -192,4 +214,23 @@ export async function getFundingUTXOs(
     })
   }
   return result
+}
+
+export async function getInscriptions(params: {
+  address: string
+  networkType: string
+  cursor?: number
+  size?: number
+}): Promise<InscriptionResult> {
+  const response = await fetch(
+    `https://app.unyx.tech/api/openapi/bitcoin/inscriptions${encodeQueryString(
+      params
+    )}`
+  )
+  if (!response.ok) {
+    const err = await response.text()
+    throw new Error(err)
+  } else {
+    return (await response.json()).result
+  }
 }

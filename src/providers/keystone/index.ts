@@ -270,9 +270,6 @@ export class KeystoneWallet extends WalletProvider {
     this.keystoneWaleltInfo.scriptPubKeyHex = scriptPubKeyHex
   }
 
-  getInscriptions(cursor?: number, size?: number): Promise<InscriptionResult> {
-    throw new Error('Method not implemented.')
-  }
   async sendBitcoin(to: string, satAmount: number) {
     try {
       satAmount = Number(parseUnits(satAmount.toString(), 8).toString())
