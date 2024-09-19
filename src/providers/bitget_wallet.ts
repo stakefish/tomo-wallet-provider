@@ -1,6 +1,7 @@
 import { InscriptionResult, Network, WalletProvider } from '../wallet_provider'
 import { parseUnits } from '../utils/parseUnits'
 import { getAddressBalance } from '../mempool_api'
+import { Psbt } from 'bitcoinjs-lib'
 
 const INTERNAL_NETWORK_NAMES = {
   [Network.MAINNET]: 'livenet',
@@ -67,14 +68,75 @@ export class BitgetWallet extends WalletProvider {
   }
 
   signPsbt = async (psbtHex: string): Promise<string> => {
-    return await this.bitcoinNetworkProvider.signPsbt(psbtHex)
+    const data = {
+      method: 'signPsbt',
+      params: {
+        from: this.bitcoinNetworkProvider.selectedAddress,
+        __internalFunc: '__signPsbt_babylon',
+        psbtHex,
+        options: {
+          autoFinalized: true
+        }
+      }
+    }
+
+    const signedPsbt = await this.bitcoinNetworkProvider.request(
+      'dappsSign',
+      data
+    )
+    const psbt = Psbt.fromHex(signedPsbt)
+
+    const allFinalized = psbt.data.inputs.every(
+      (input) => input.finalScriptWitness || input.finalScriptSig
+    )
+    if (!allFinalized) {
+      psbt.finalizeAllInputs()
+    }
+
+    return psbt.toHex()
   }
 
   signPsbts = async (psbtsHexes: string[]): Promise<string[]> => {
     if (!psbtsHexes && !Array.isArray(psbtsHexes)) {
       throw new Error('params error')
     }
-    return await this.bitcoinNetworkProvider.signPsbts(psbtsHexes)
+    const options = psbtsHexes.map((_) => {
+      return {
+        autoFinalized: true
+      }
+    })
+    const data = {
+      method: 'signPsbt',
+      params: {
+        from: this.bitcoinNetworkProvider.selectedAddress,
+        __internalFunc: '__signPsbts_babylon',
+        psbtHex: '_',
+        psbtHexs: psbtsHexes,
+        options
+      }
+    }
+
+    try {
+      let signedPsbts = await this.bitcoinNetworkProvider.request(
+        'dappsSign',
+        data
+      )
+      signedPsbts = signedPsbts.split(',')
+      return signedPsbts.map((tx: string) => {
+        const psbt = Psbt.fromHex(tx)
+
+        const allFinalized = psbt.data.inputs.every(
+          (input) => input.finalScriptWitness || input.finalScriptSig
+        )
+        if (!allFinalized) {
+          psbt.finalizeAllInputs()
+        }
+
+        return psbt.toHex()
+      })
+    } catch (error) {
+      throw new Error((error as Error)?.message)
+    }
   }
 
   signMessageBIP322 = async (message: string): Promise<string> => {
