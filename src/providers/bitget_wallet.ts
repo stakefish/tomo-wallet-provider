@@ -173,10 +173,6 @@ export class BitgetWallet extends WalletProvider {
     )
   }
 
-  pushTx = async (txHex: string): Promise<string> => {
-    return await this.bitcoinNetworkProvider.pushTx(txHex)
-  }
-
   async switchNetwork(network: Network) {
     return await this.bitcoinNetworkProvider.switchNetwork(
       INTERNAL_NETWORK_NAMES[network]
