@@ -10,7 +10,6 @@ export const unisatProvider = 'unisat'
 
 export class UnisatWallet extends WalletProvider {
   private unisatWalletInfo: WalletInfo | undefined
-  private bitcoinNetworkProvider: any
 
   constructor() {
     super()
@@ -43,50 +42,6 @@ export class UnisatWallet extends WalletProvider {
     return 'UniSat'
   }
 
-  getAddress = async (): Promise<string> => {
-    return (await this.bitcoinNetworkProvider.getAccounts())[0]
-  }
-
-  getPublicKeyHex = async () => {
-    if (!this.unisatWalletInfo) {
-      throw new Error('OKX Wallet not connected')
-    }
-    return this.unisatWalletInfo.publicKeyHex
-  }
-
-  signPsbt = async (psbtHex: string): Promise<string> => {
-    if (!this.unisatWalletInfo) {
-      throw new Error('Wallet not connected')
-    }
-    // Use signPsbt since it shows the fees
-    return await this.bitcoinNetworkProvider.signPsbt(psbtHex)
-  }
-
-  signPsbts = async (psbtsHexes: string[]): Promise<string[]> => {
-    if (!this.unisatWalletInfo) {
-      throw new Error('Wallet not connected')
-    }
-    // sign the PSBTs
-    return await this.bitcoinNetworkProvider.signPsbts(psbtsHexes)
-  }
-
-  signMessageBIP322 = async (message: string): Promise<string> => {
-    if (!this.unisatWalletInfo) {
-      throw new Error('Wallet not connected')
-    }
-    return await this.bitcoinNetworkProvider.signMessage(
-      message,
-      'bip322-simple'
-    )
-  }
-
-  getNetwork = async (): Promise<Network> => {
-    return (await this.bitcoinNetworkProvider.getNetwork()).replace(
-      'livenet',
-      'mainnet'
-    )
-  }
-
   async switchNetwork(network: Network) {
     return await this.bitcoinNetworkProvider.switchNetwork(
       network.replace('mainnet', 'livenet')
@@ -99,14 +54,6 @@ export class UnisatWallet extends WalletProvider {
       Number(parseUnits(satAmount.toString(), 8))
     )
     return result
-  }
-
-  on = (eventName: string, callBack: () => void) => {
-    return this.bitcoinNetworkProvider.on(eventName, callBack)
-  }
-
-  off = (eventName: string, callBack: () => void) => {
-    return this.bitcoinNetworkProvider.off(eventName, callBack)
   }
 
   getBalance = async (): Promise<number> => {

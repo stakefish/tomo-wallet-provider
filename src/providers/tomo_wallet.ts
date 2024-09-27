@@ -10,10 +10,6 @@ import { parseUnits } from '../utils/parseUnits'
 export const tomoProvider = 'tomo_btc'
 
 export class TomoWallet extends WalletProvider {
-  private tomoWalletInfo: WalletInfo | undefined
-  private bitcoinNetworkProvider: any
-  private networkEnv: Network | undefined
-
   constructor() {
     super()
 
@@ -50,65 +46,11 @@ export class TomoWallet extends WalletProvider {
       throw new Error('BTC is not enabled in Tomo Wallet')
     }
 
-    this.tomoWalletInfo = {
-      publicKeyHex: pubKey,
-      address: addresses[0]
-    }
     return this
   }
 
   getWalletProviderName = async (): Promise<string> => {
     return 'Tomo'
-  }
-
-  getAddress = async (): Promise<string> => {
-    return (await this.bitcoinNetworkProvider.getAccounts())[0]
-  }
-
-  getPublicKeyHex = async (): Promise<string> => {
-    if (!this.tomoWalletInfo) {
-      throw new Error('Tomo Wallet not connected')
-    }
-    return this.tomoWalletInfo.publicKeyHex
-  }
-
-  signPsbt = async (psbtHex: string): Promise<string> => {
-    if (!this.tomoWalletInfo) {
-      throw new Error('Tomo Wallet not connected')
-    }
-    // sign the PSBT
-    return await this.bitcoinNetworkProvider.signPsbt(psbtHex)
-  }
-
-  signPsbts = async (psbtsHexes: string[]): Promise<string[]> => {
-    if (!this.tomoWalletInfo) {
-      throw new Error('Tomo Wallet not connected')
-    }
-
-    // sign the PSBTs
-    return await this.bitcoinNetworkProvider.signPsbts(psbtsHexes)
-  }
-
-  signMessageBIP322 = async (message: string): Promise<string> => {
-    if (!this.tomoWalletInfo) {
-      throw new Error('Tomo Wallet not connected')
-    }
-    return await this.bitcoinNetworkProvider.signMessage(
-      message,
-      'bip322-simple'
-    )
-  }
-
-  getNetwork = async (): Promise<Network> => {
-    return await this.bitcoinNetworkProvider.getNetwork()
-  }
-
-  on = (eventName: string, callBack: () => void) => {
-    return this.bitcoinNetworkProvider.on(eventName, callBack)
-  }
-
-  off = (eventName: string, callBack: () => void) => {
-    return this.bitcoinNetworkProvider.off(eventName, callBack)
   }
 
   getBalance = async (): Promise<number> => {
@@ -118,17 +60,5 @@ export class TomoWallet extends WalletProvider {
 
   pushTx = async (txHex: string): Promise<string> => {
     return await this.bitcoinNetworkProvider.pushTx(txHex)
-  }
-
-  async switchNetwork(network: Network) {
-    return await this.bitcoinNetworkProvider.switchNetwork(network)
-  }
-
-  async sendBitcoin(to: string, satAmount: number) {
-    const result = await this.bitcoinNetworkProvider.sendBitcoin(
-      to,
-      Number(parseUnits(satAmount.toString(), 8))
-    )
-    return result
   }
 }

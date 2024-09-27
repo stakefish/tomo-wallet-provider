@@ -1,9 +1,4 @@
-import {
-  InscriptionResult,
-  Network,
-  WalletInfo,
-  WalletProvider
-} from '../wallet_provider'
+import { Network, WalletProvider } from '../wallet_provider'
 
 import { Psbt } from 'bitcoinjs-lib'
 import { parseUnits } from '../utils/parseUnits'
@@ -11,8 +6,6 @@ import { toNetwork } from '../config/network.config'
 import { initBTCEccLib } from '../utils/eccLibUtils'
 
 export class BinanceWallet extends WalletProvider {
-  private walletInfo: WalletInfo | undefined
-  private bitcoinNetworkProvider: any
   constructor() {
     super()
     this.bitcoinNetworkProvider = window?.binancew3w?.bitcoin
@@ -31,10 +24,6 @@ export class BinanceWallet extends WalletProvider {
     if (!address || !publicKeyHex) {
       throw new Error('Could not connect to imToken Wallet')
     }
-    this.walletInfo = {
-      publicKeyHex,
-      address
-    }
     return this
   }
 
@@ -42,37 +31,8 @@ export class BinanceWallet extends WalletProvider {
     return this.bitcoinNetworkProvider.name
   }
 
-  getAddress = async (): Promise<string> => {
-    const accounts = await this.bitcoinNetworkProvider.getAccounts()
-
-    const address = accounts[0]
-    return address
-  }
-
-  getPublicKeyHex = async (): Promise<string> => {
-    return await this.bitcoinNetworkProvider.getPublicKey()
-  }
-
-  signPsbt = async (psbtHex: string): Promise<string> => {
-    return await this.bitcoinNetworkProvider.signPsbt(psbtHex)
-  }
-
   signPsbts = async (psbtsHexes: string[]): Promise<string[]> => {
     throw new Error('Method "signPsbts" not implemented.')
-  }
-
-  signMessageBIP322 = async (message: string): Promise<string> => {
-    return await this.bitcoinNetworkProvider.signMessage(
-      message,
-      'bip322-simple'
-    )
-  }
-
-  getNetwork = async (): Promise<Network> => {
-    return (await this.bitcoinNetworkProvider.getNetwork()).replace(
-      'livenet',
-      'mainnet'
-    )
   }
 
   on = (eventName: string, callBack: () => void) => {

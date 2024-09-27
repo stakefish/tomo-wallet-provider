@@ -16,7 +16,6 @@ export const imTokenWalletProvider = 'bitcoin'
 
 export class ImTokenWallet extends WalletProvider {
   private walletInfo: WalletInfo | undefined
-  private bitcoinNetworkProvider: any
   constructor() {
     super()
 

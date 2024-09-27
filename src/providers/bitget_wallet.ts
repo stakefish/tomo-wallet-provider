@@ -13,9 +13,6 @@ const INTERNAL_NETWORK_NAMES = {
 export const bitgetWalletProvider = 'bitkeep'
 
 export class BitgetWallet extends WalletProvider {
-  private bitcoinNetworkProvider: any
-  private networkEnv: Network | undefined
-
   constructor() {
     super()
 
@@ -49,22 +46,6 @@ export class BitgetWallet extends WalletProvider {
 
   getWalletProviderName = async (): Promise<string> => {
     return 'Bitget Wallet'
-  }
-
-  getAddress = async (): Promise<string> => {
-    const accounts = (await this.bitcoinNetworkProvider.getAccounts()) || []
-    if (!accounts?.[0]) {
-      throw new Error('Bitget Wallet not connected')
-    }
-    return accounts[0]
-  }
-
-  getPublicKeyHex = async (): Promise<string> => {
-    const publicKey = await this.bitcoinNetworkProvider.getPublicKey()
-    if (!publicKey) {
-      throw new Error('Bitget Wallet not connected')
-    }
-    return publicKey
   }
 
   signPsbt = async (psbtHex: string): Promise<string> => {
@@ -139,53 +120,12 @@ export class BitgetWallet extends WalletProvider {
     }
   }
 
-  signMessageBIP322 = async (message: string): Promise<string> => {
-    return await this.bitcoinNetworkProvider.signMessage(
-      message,
-      'bip322-simple'
-    )
-  }
-
-  getNetwork = async (): Promise<Network> => {
-    const internalNetwork = await this.bitcoinNetworkProvider.getNetwork()
-
-    for (const [key, value] of Object.entries(INTERNAL_NETWORK_NAMES)) {
-      if (value === internalNetwork) {
-        return key as Network
-      }
-    }
-
-    throw new Error('Unsupported network')
-  }
-
-  on = (eventName: string, callBack: () => void) => {
-    return this.bitcoinNetworkProvider.on(eventName, callBack)
-  }
-
-  off = (eventName: string, callBack: () => void) => {
-    return this.bitcoinNetworkProvider.off(eventName, callBack)
-  }
-
-  getBalance = async (): Promise<number> => {
-    return await getAddressBalance(
-      await this.getNetwork(),
-      await this.getAddress()
-    )
-  }
-
   async switchNetwork(network: Network) {
     return await this.bitcoinNetworkProvider.switchNetwork(
       INTERNAL_NETWORK_NAMES[network]
     )
   }
 
-  async sendBitcoin(to: string, satAmount: number) {
-    const result = await this.bitcoinNetworkProvider.sendBitcoin(
-      to,
-      Number(parseUnits(satAmount.toString(), 8))
-    )
-    return result
-  }
   async getInscriptions(
     cursor?: number,
     size?: number

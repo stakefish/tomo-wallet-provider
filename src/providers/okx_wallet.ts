@@ -14,7 +14,6 @@ export const okxProvider = 'okxwallet'
 export class OKXWallet extends WalletProvider {
   private okxWalletInfo: WalletInfo | undefined
   private okxWallet: any
-  private bitcoinNetworkProvider: any
   private networkEnv: Network | undefined = Network.MAINNET
 
   constructor() {
@@ -70,32 +69,6 @@ export class OKXWallet extends WalletProvider {
     return await this.bitcoinNetworkProvider.getSelectedAddress()
   }
 
-  signPsbt = async (psbtHex: string): Promise<string> => {
-    if (!this.okxWalletInfo) {
-      throw new Error('OKX Wallet not connected')
-    }
-    // Use signPsbt since it shows the fees
-    return await this.bitcoinNetworkProvider.signPsbt(psbtHex)
-  }
-
-  signPsbts = async (psbtsHexes: string[]): Promise<string[]> => {
-    if (!this.okxWalletInfo) {
-      throw new Error('OKX Wallet not connected')
-    }
-    // sign the PSBTs
-    return await this.bitcoinNetworkProvider.signPsbts(psbtsHexes)
-  }
-
-  signMessageBIP322 = async (message: string): Promise<string> => {
-    if (!this.okxWalletInfo) {
-      throw new Error('OKX Wallet not connected')
-    }
-    return await this.bitcoinNetworkProvider.signMessage(
-      message,
-      'bip322-simple'
-    )
-  }
-
   getNetwork = async (): Promise<Network> => {
     // OKX does not provide a way to get the network for Signet and Testnet
     // So we pass the check on connection and return the environment network
@@ -129,14 +102,6 @@ export class OKXWallet extends WalletProvider {
       parseUnits(satAmount.toString(), 8).toString()
     )
     return result
-  }
-
-  on = (eventName: string, callBack: () => void) => {
-    return this.bitcoinNetworkProvider.on(eventName, callBack)
-  }
-
-  off = (eventName: string, callBack: () => void) => {
-    return this.bitcoinNetworkProvider.off(eventName, callBack)
   }
 
   getPublicKeyHex = async () => {

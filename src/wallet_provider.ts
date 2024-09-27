@@ -6,6 +6,7 @@ import {
   getTipHeight,
   pushTx
 } from './mempool_api'
+import { parseUnits } from './utils/parseUnits'
 
 export type Fees = {
   // fee for inclusion in the next block
@@ -73,6 +74,7 @@ export const DEFAULT_INSCRIPTION_LIMIT = 100
  */
 
 export abstract class WalletProvider {
+  bitcoinNetworkProvider: any
   /**
    * Connects to the wallet and returns the instance of the wallet provider.
    * Currently only supports "native segwit" and "taproot" address types.
@@ -91,40 +93,62 @@ export abstract class WalletProvider {
    * Gets the address of the connected wallet.
    * @returns A promise that resolves to the address of the connected wallet.
    */
-  abstract getAddress(): Promise<string>
+  async getAddress(): Promise<string> {
+    const accounts = (await this.bitcoinNetworkProvider.getAccounts()) || []
+    if (!accounts?.[0]) {
+      throw new Error('Wallet not connected')
+    }
+    return accounts[0]
+  }
 
   /**
    * Gets the public key of the connected wallet.
    * @returns A promise that resolves to the public key of the connected wallet.
    */
-  abstract getPublicKeyHex(): Promise<string>
+  async getPublicKeyHex(): Promise<string> {
+    return await this.bitcoinNetworkProvider.getPublicKey()
+  }
 
   /**
    * Signs the given PSBT in hex format.
    * @param psbtHex - The hex string of the unsigned PSBT to sign.
    * @returns A promise that resolves to the hex string of the signed PSBT.
    */
-  abstract signPsbt(psbtHex: string): Promise<string>
+  async signPsbt(psbtHex: string): Promise<string> {
+    return await this.bitcoinNetworkProvider.signPsbt(psbtHex)
+  }
 
   /**
    * Signs multiple PSBTs in hex format.
    * @param psbtsHexes - The hex strings of the unsigned PSBTs to sign.
    * @returns A promise that resolves to an array of hex strings, each representing a signed PSBT.
    */
-  abstract signPsbts(psbtsHexes: string[]): Promise<string[]>
+  async signPsbts(psbtsHexes: string[]): Promise<string[]> {
+    return await this.bitcoinNetworkProvider.signPsbts(psbtsHexes)
+  }
 
   /**
    * Gets the network of the current account.
    * @returns A promise that resolves to the network of the current account.
    */
-  abstract getNetwork(): Promise<Network>
+  async getNetwork(): Promise<Network> {
+    return (await this.bitcoinNetworkProvider.getNetwork()).replace(
+      'livenet',
+      'mainnet'
+    )
+  }
 
   /**
    * Signs a message using BIP-322 simple.
    * @param message - The message to sign.
    * @returns A promise that resolves to the signed message.
    */
-  abstract signMessageBIP322(message: string): Promise<string>
+  async signMessageBIP322(message: string): Promise<string> {
+    return await this.bitcoinNetworkProvider.signMessage(
+      message,
+      'bip322-simple'
+    )
+  }
 
   /**
    * Registers an event listener for the specified event.
@@ -132,11 +156,23 @@ export abstract class WalletProvider {
    * @param eventName - The name of the event to listen for.
    * @param callBack - The callback function to be executed when the event occurs.
    */
-  abstract on(eventName: string, callBack: () => void): void
-  abstract off(eventName: string, callBack: () => void): void
+  on(eventName: string, callBack: () => void) {
+    return this.bitcoinNetworkProvider.on(eventName, callBack)
+  }
+  off(eventName: string, callBack: () => void): void {
+    return this.bitcoinNetworkProvider.off(eventName, callBack)
+  }
 
-  abstract switchNetwork(network: Network): Promise<void>
-  abstract sendBitcoin(to: string, satAmount: number): Promise<string>
+  async switchNetwork(network: Network): Promise<void> {
+    await this.bitcoinNetworkProvider.switchNetwork(network)
+  }
+  async sendBitcoin(to: string, satAmount: number): Promise<string> {
+    const result = await this.bitcoinNetworkProvider.sendBitcoin(
+      to,
+      Number(parseUnits(satAmount.toString(), 8))
+    )
+    return result
+  }
 
   /**
    * Retrieves the inscriptions for the connected wallet.
