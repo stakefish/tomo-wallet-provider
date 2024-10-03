@@ -30,9 +30,9 @@ export class KeplrWallet extends WalletProvider {
 
   async connectWallet(): Promise<this> {
     const curChainId = this.getChainId()
-    const key = await this.provider.getKey(curChainId)
-    // await this.provider.enble(this.chainIds)
+    await this.provider.enable(curChainId)
     this.offlineSigner = this.provider.getOfflineSigner(curChainId)
+    await this.offlineSigner.getAccounts()
     await this.getAddress()
     return this
   }
@@ -88,62 +88,5 @@ export class KeplrWallet extends WalletProvider {
       signDoc,
       signOptions
     )
-  }
-
-  async sendNativeToken(address: string, amount: string): Promise<string> {
-    const curChainId = this.getChainId()
-    const key = await this.provider.getKey(curChainId)
-
-    const tx = {
-      msgs: [
-        {
-          type: 'cosmos-sdk/MsgSend',
-          value: {
-            from_address: key.bech32Address,
-            to_address: address,
-            amount: [
-              {
-                denom: 'uatom', // Replace with the appropriate denomination
-                amount: amount
-              }
-            ]
-          }
-        }
-      ],
-      fee: {
-        amount: [
-          {
-            denom: 'uatom', // Replace with the appropriate denomination
-            amount: '5000' // Replace with the appropriate fee amount
-          }
-        ],
-        gas: '200000' // Replace with the appropriate gas limit
-      },
-      signatures: null,
-      memo: ''
-    }
-
-    const signDoc: StdSignDoc = {
-      chain_id: curChainId,
-      account_number: '0', // Replace with the appropriate account number
-      sequence: '0', // Replace with the appropriate sequence number
-      fee: tx.fee,
-      msgs: tx.msgs,
-      memo: tx.memo
-    }
-
-    const { signed, signature } = await this.signAmino(
-      key.bech32Address,
-      signDoc
-    )
-
-    tx.signatures = [signature]
-    // Serialize the signed transaction
-    const serializedTx = new TextEncoder().encode(JSON.stringify(signed))
-    // Send the transaction
-    const result = await this.provider.sendTx(curChainId, serializedTx, 'sync')
-    const res = new TextDecoder().decode(result)
-    console.log(res)
-    return res
   }
 }
