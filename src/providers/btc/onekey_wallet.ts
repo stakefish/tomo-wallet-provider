@@ -1,11 +1,5 @@
-import {
-  Inscription,
-  InscriptionResult,
-  Network,
-  WalletInfo,
-  WalletProvider
-} from '../wallet_provider'
-import { parseUnits } from '../utils/parseUnits'
+import { Network } from '../../wallet_provider'
+import { BTCProvider } from './btc_wallet'
 
 export const oneKeyProvider = '$onekey'
 
@@ -16,7 +10,7 @@ const INTERNAL_NETWORK_NAMES = {
   [Network.SIGNET]: 'signet'
 }
 
-export class OneKeyWallet extends WalletProvider {
+export class OneKeyWallet extends BTCProvider {
   constructor() {
     super()
 

@@ -1,11 +1,12 @@
-import { Network, WalletProvider } from '../wallet_provider'
+import { Network, WalletProvider } from '../../wallet_provider'
 
 import { Psbt } from 'bitcoinjs-lib'
-import { parseUnits } from '../utils/parseUnits'
-import { toNetwork } from '../config/network.config'
-import { initBTCEccLib } from '../utils/eccLibUtils'
+import { parseUnits } from '../../utils/parseUnits'
+import { toNetwork } from '../../config/network.config'
+import { initBTCEccLib } from '../../utils/eccLibUtils'
+import { BTCProvider } from './btc_wallet'
 
-export class BinanceWallet extends WalletProvider {
+export class BinanceWallet extends BTCProvider {
   constructor() {
     super()
     this.bitcoinNetworkProvider = window?.binancew3w?.bitcoin

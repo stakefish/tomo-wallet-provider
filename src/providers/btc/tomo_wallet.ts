@@ -1,15 +1,8 @@
-import {
-  Inscription,
-  InscriptionResult,
-  Network,
-  WalletInfo,
-  WalletProvider
-} from '../wallet_provider'
-import { parseUnits } from '../utils/parseUnits'
+import { BTCProvider } from './btc_wallet'
 
 export const tomoProvider = 'tomo_btc'
 
-export class TomoWallet extends WalletProvider {
+export class TomoWallet extends BTCProvider {
   constructor() {
     super()
 

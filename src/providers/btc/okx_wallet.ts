@@ -1,17 +1,18 @@
-import { validateAddress } from '../config/network.config'
+import { validateAddress } from '../../config/network.config'
 import {
   Inscription,
   InscriptionResult,
   Network,
   WalletInfo,
   WalletProvider
-} from '../wallet_provider'
-import { parseUnits } from '../utils/parseUnits'
+} from '../../wallet_provider'
+import { parseUnits } from '../../utils/parseUnits'
+import { BTCProvider } from './btc_wallet'
 
 // window object for OKX Wallet extension
 export const okxProvider = 'okxwallet'
 
-export class OKXWallet extends WalletProvider {
+export class OKXWallet extends BTCProvider {
   private okxWalletInfo: WalletInfo | undefined
   private okxWallet: any
   private networkEnv: Network | undefined = Network.MAINNET

@@ -4,17 +4,18 @@ import {
   Network,
   WalletInfo,
   WalletProvider
-} from '../wallet_provider'
+} from '../../wallet_provider'
 
 import { Psbt } from 'bitcoinjs-lib'
-import { parseUnits } from '../utils/parseUnits'
-import { toNetwork } from '../config/network.config'
-import { initBTCEccLib } from '../utils/eccLibUtils'
+import { parseUnits } from '../../utils/parseUnits'
+import { toNetwork } from '../../config/network.config'
+import { initBTCEccLib } from '../../utils/eccLibUtils'
+import { BTCProvider } from './btc_wallet'
 
 // window object for imToken Wallet
 export const imTokenWalletProvider = 'bitcoin'
 
-export class ImTokenWallet extends WalletProvider {
+export class ImTokenWallet extends BTCProvider {
   private walletInfo: WalletInfo | undefined
   constructor() {
     super()

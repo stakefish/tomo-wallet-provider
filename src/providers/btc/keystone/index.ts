@@ -17,17 +17,14 @@ import { tapleafHash } from 'bitcoinjs-lib/src/payments/bip341'
 import { toXOnly } from 'bitcoinjs-lib/src/psbt/bip371'
 import { pubkeyInScript } from 'bitcoinjs-lib/src/psbt/psbtutils'
 
-import { WalletError, WalletErrorType } from '../../config/errors'
-import {
-  InscriptionResult,
-  Network,
-  WalletProvider
-} from '../../wallet_provider'
+import { WalletError, WalletErrorType } from '../../../config/errors'
+import { Network } from '../../../wallet_provider'
 
 import BIP322 from './bip322'
-import { parseUnits } from '../../utils/parseUnits'
-import { toNetwork } from '../../config/network.config'
-import { initBTCEccLib } from '../../utils/eccLibUtils'
+import { parseUnits } from '../../../utils/parseUnits'
+import { toNetwork } from '../../../config/network.config'
+import { initBTCEccLib } from '../../../utils/eccLibUtils'
+import { BTCProvider } from '../btc_wallet'
 
 type KeystoneWalletInfo = {
   mfp: string | undefined
@@ -38,7 +35,7 @@ type KeystoneWalletInfo = {
   scriptPubKeyHex: string | undefined
 }
 
-export class KeystoneWallet extends WalletProvider {
+export class KeystoneWallet extends BTCProvider {
   private keystoneWaleltInfo: KeystoneWalletInfo | undefined
   private viewSdk: typeof sdk
   private dataSdk: KeystoneSDK

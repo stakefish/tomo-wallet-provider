@@ -1,7 +1,12 @@
-import { InscriptionResult, Network, WalletProvider } from '../wallet_provider'
-import { parseUnits } from '../utils/parseUnits'
-import { getAddressBalance } from '../mempool_api'
+import {
+  InscriptionResult,
+  Network,
+  WalletProvider
+} from '../../wallet_provider'
+import { parseUnits } from '../../utils/parseUnits'
+import { getAddressBalance } from '../../mempool_api'
 import { Psbt } from 'bitcoinjs-lib'
+import { BTCProvider } from './btc_wallet'
 
 const INTERNAL_NETWORK_NAMES = {
   [Network.MAINNET]: 'livenet',
@@ -12,7 +17,7 @@ const INTERNAL_NETWORK_NAMES = {
 // window object for Bitget Wallet extension
 export const bitgetWalletProvider = 'bitkeep'
 
-export class BitgetWallet extends WalletProvider {
+export class BitgetWallet extends BTCProvider {
   constructor() {
     super()
 

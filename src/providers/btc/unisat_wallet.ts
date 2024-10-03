@@ -3,12 +3,13 @@ import {
   Network,
   WalletInfo,
   WalletProvider
-} from '../wallet_provider'
-import { parseUnits } from '../utils/parseUnits'
+} from '../../wallet_provider'
+import { parseUnits } from '../../utils/parseUnits'
+import { BTCProvider } from './btc_wallet'
 
 export const unisatProvider = 'unisat'
 
-export class UnisatWallet extends WalletProvider {
+export class UnisatWallet extends BTCProvider {
   private unisatWalletInfo: WalletInfo | undefined
 
   constructor() {
