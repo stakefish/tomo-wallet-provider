@@ -7,16 +7,25 @@ import imtokenIcon from './icons/imtoken.svg'
 import keystoneIcon from './icons/keystone.svg'
 import keplrIcon from './icons/keplr_wallet.png'
 import binanceIcon from './icons/binance.webp'
-import { OKXWallet } from './providers/btc/okx_wallet'
-import { UnisatWallet } from './providers/btc/unisat_wallet'
-import { TomoWallet } from './providers/btc/tomo_wallet'
-import { BitgetWallet } from './providers/btc/bitget_wallet'
-import { OneKeyWallet } from './providers/btc/onekey_wallet'
-import { ImTokenWallet } from './providers/btc/imtoken_wallet'
+import cosmostationIcon from './icons/cosmostation.ico'
+import stationIcon from './icons/station.svg'
+import leapIcon from './icons/leap.jpg'
+import { OKXBTCWallet } from './providers/btc/OKXBTCWallet'
+import { UniSatBTCWallet } from './providers/btc/UniSatBTCWallet'
+import { TomoBTCWallet } from './providers/btc/TomoBTCWallet'
+import { BitgetBTCWallet } from './providers/btc/BitgetBTCWallet'
+import { OneKeyBTCWallet } from './providers/btc/OneKeyBTCWallet'
+import { ImTokenBTCWallet } from './providers/btc/ImTokenBTCWallet'
 import { KeystoneWallet } from './providers/btc/keystone'
-import { BinanceWallet } from './providers/btc/binance_wallet'
-import { WalletProvider } from './wallet_provider'
-import { KeplrWallet } from './providers/cosmos/keplr_wallet'
+import { BinanceBTCWallet } from './providers/btc/BinanceBTCWallet'
+import { WalletProvider } from './WalletProvider'
+import { KeplrCosmosWallet } from './providers/cosmos/KeplrCosmosWallet'
+import { OKXCosmosWallet } from './providers/cosmos/OKXCosmosWallet'
+import { CosmostationCosmosWallet } from './providers/cosmos/CosmostationCosmosWallet'
+import { LeapCosmosWallet } from './providers/cosmos/LeapCosmosWallet'
+import { BitgetCosmosWallet } from './providers/cosmos/BitgetCosmosWallet'
+import { OneKeyCosmosWallet } from './providers/cosmos/OneKeyCosmosWallet'
+import { StationCosmosWallet } from './providers/cosmos/StationCosmosWallet'
 
 type TomoWalletType = 'extension' | 'qrcode' | 'injected'
 
@@ -35,41 +44,41 @@ export const walletList: TomoWallet[] = [
   {
     id: 'bitcoin_okx',
     img: okxIcon,
-    name: 'OKX Bitcoin',
+    name: 'OKX',
     chainType: 'bitcoin',
-    connectProvider: OKXWallet,
+    connectProvider: OKXBTCWallet,
     type: 'extension'
   },
   {
     id: 'bitcoin_unisat',
     img: unisatIcon,
-    name: 'Unisat Wallet',
+    name: 'Unisat',
     chainType: 'bitcoin',
-    connectProvider: UnisatWallet,
+    connectProvider: UniSatBTCWallet,
     type: 'extension'
   },
   {
     id: 'bitcoin_tomo',
     img: tomoIcon,
-    name: 'Tomo Bitcoin',
+    name: 'Tomo',
     chainType: 'bitcoin',
-    connectProvider: TomoWallet,
+    connectProvider: TomoBTCWallet,
     type: 'extension'
   },
   {
     id: 'bitcoin_onekey',
     img: onekeyIcon,
-    name: 'OneKey Bitcoin',
+    name: 'OneKey',
     chainType: 'bitcoin',
-    connectProvider: OneKeyWallet,
+    connectProvider: OneKeyBTCWallet,
     type: 'extension'
   },
   {
     id: 'bitcoin_bitget',
     img: bitgetIcon,
-    name: 'Bitget Bitcoin',
+    name: 'Bitget',
     chainType: 'bitcoin',
-    connectProvider: BitgetWallet,
+    connectProvider: BitgetBTCWallet,
     type: 'extension'
   },
   {
@@ -77,37 +86,85 @@ export const walletList: TomoWallet[] = [
     img: keplrIcon,
     name: 'Keplr',
     chainType: 'cosmos',
-    connectProvider: KeplrWallet,
+    connectProvider: KeplrCosmosWallet,
+    type: 'extension'
+  },
+  {
+    id: 'cosmos_okx',
+    img: okxIcon,
+    name: 'OKX',
+    chainType: 'cosmos',
+    connectProvider: OKXCosmosWallet,
+    type: 'extension'
+  },
+  {
+    id: 'cosmos_cosmostation',
+    img: cosmostationIcon,
+    name: 'Cosmostation',
+    chainType: 'cosmos',
+    connectProvider: CosmostationCosmosWallet,
+    type: 'extension'
+  },
+  {
+    id: 'cosmos_leap',
+    img: leapIcon,
+    name: 'Leap',
+    chainType: 'cosmos',
+    connectProvider: LeapCosmosWallet,
+    type: 'extension'
+  },
+  // {
+  //   id: 'cosmos_bitget',
+  //   img: bitgetIcon,
+  //   name: 'Bitget',
+  //   chainType: 'cosmos',
+  //   connectProvider: BitgetCosmosWallet,
+  //   type: 'extension'
+  // },
+  {
+    id: 'cosmos_onekey',
+    img: onekeyIcon,
+    name: 'OneKey',
+    chainType: 'cosmos',
+    connectProvider: OneKeyCosmosWallet,
+    type: 'extension'
+  },
+  {
+    id: 'cosmos_station',
+    img: stationIcon,
+    name: 'Station',
+    chainType: 'cosmos',
+    connectProvider: StationCosmosWallet,
     type: 'extension'
   },
   {
     id: 'bitcoin_imtoken',
     img: imtokenIcon,
-    name: 'imToken Bitcoin',
+    name: 'imToken',
     chainType: 'bitcoin',
-    connectProvider: ImTokenWallet,
+    connectProvider: ImTokenBTCWallet,
     type: 'injected'
   },
   {
     id: 'bitcoin_binance',
     img: binanceIcon,
-    name: 'Binance Bitcoin',
+    name: 'Binance',
     chainType: 'bitcoin',
-    connectProvider: BinanceWallet,
+    connectProvider: BinanceBTCWallet,
     type: 'injected'
   },
   {
     id: 'bitcoin_keystone',
     img: keystoneIcon,
-    name: 'Keystone Bitcoin',
+    name: 'Keystone',
     chainType: 'bitcoin',
     connectProvider: KeystoneWallet,
     type: 'qrcode'
   }
 ]
 
-export * from './wallet_provider'
+export * from './WalletProvider'
 export * from './utils/parseUnits'
 
-export * from './providers/btc/btc_wallet'
-export * from './providers/cosmos/keplr_wallet'
+export * from './providers/btc/BTCProvider'
+export * from './providers/cosmos/CosmosProvider'

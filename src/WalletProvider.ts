@@ -1,13 +1,3 @@
-import {
-  getAddressBalance,
-  getFundingUTXOs,
-  getInscriptions,
-  getNetworkFees,
-  getTipHeight,
-  pushTx
-} from './mempool_api'
-import { parseUnits } from './utils/parseUnits'
-
 export type Fees = {
   // fee for inclusion in the next block
   fastestFee: number
@@ -65,14 +55,18 @@ export type WalletInfo = {
   address: string
 }
 
+export type TomoChain = {
+  network: string
+}
+
 /**
  * Abstract class representing a wallet provider.
  * Provides methods for connecting to a wallet, retrieving wallet information, signing transactions, and more.
  */
 
 export abstract class WalletProvider {
-  chains?: string[]
-  constructor(chains?: any[]) {
+  chains: TomoChain[]
+  constructor(chains: TomoChain[]) {
     this.chains = chains
   }
   /**
@@ -82,12 +76,6 @@ export abstract class WalletProvider {
    * @throws An error if the wallet is not installed or if connection fails.
    */
   abstract connectWallet(): Promise<this>
-
-  /**
-   * Gets the name of the wallet provider.
-   * @returns A promise that resolves to the name of the wallet provider.
-   */
-  abstract getWalletProviderName(): Promise<string>
 
   /**
    * Gets the address of the connected wallet.

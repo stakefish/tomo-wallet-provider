@@ -1,32 +1,23 @@
 import { validateAddress } from '../../config/network.config'
-import {
-  Inscription,
-  InscriptionResult,
-  Network,
-  WalletInfo,
-  WalletProvider
-} from '../../wallet_provider'
+import { InscriptionResult, Network, WalletInfo } from '../../WalletProvider'
 import { parseUnits } from '../../utils/parseUnits'
-import { BTCProvider } from './btc_wallet'
+import { BTCProvider } from './BTCProvider'
 
-// window object for OKX Wallet extension
-export const okxProvider = 'okxwallet'
-
-export class OKXWallet extends BTCProvider {
+export class OKXBTCWallet extends BTCProvider {
   private okxWalletInfo: WalletInfo | undefined
   private okxWallet: any
   private networkEnv: Network | undefined = Network.MAINNET
 
   constructor() {
-    super()
-
+    // @ts-ignore
+    const okxWallet = window.okxwallet
+    const bitcoinNetworkProvider = okxWallet?.bitcoin
     // check whether there is an OKX Wallet extension
-    if (!window[okxProvider]) {
+    if (!bitcoinNetworkProvider) {
       throw new Error('OKX Wallet extension not found')
     }
-
-    this.okxWallet = window[okxProvider]
-    this.bitcoinNetworkProvider = this.okxWallet.bitcoin
+    super(bitcoinNetworkProvider)
+    this.okxWallet = okxWallet
   }
 
   async connectWallet(): Promise<this> {

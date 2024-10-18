@@ -1,4 +1,4 @@
-import { WalletProvider } from '../../wallet_provider'
+import { WalletProvider } from '../../WalletProvider'
 import {
   AccountData,
   AminoSignResponse,
@@ -11,25 +11,16 @@ import {
   OfflineDirectSigner
 } from '@keplr-wallet/types/src/cosmjs'
 
-const providerName = 'keplr'
-export class KeplrWallet extends WalletProvider {
+export class CosmosProvider extends WalletProvider {
   provider: Keplr
   offlineSigner?: OfflineAminoSigner & OfflineDirectSigner
-  constructor(chains: any[]) {
+  constructor(chains: any[], provider: Keplr) {
     super(chains)
-    // check whether there is an OKX Wallet extension
-    if (!window[providerName]) {
-      throw new Error('Keplr Wallet extension not found')
-    }
-    this.provider = window[providerName]
-  }
-
-  getChainId(): string {
-    return this.chains[0].network
+    this.provider = provider
   }
 
   async connectWallet(): Promise<this> {
-    const curChainId = this.getChainId()
+    const curChainId = await this.getNetwork()
     await this.provider.enable(curChainId)
     this.offlineSigner = this.provider.getOfflineSigner(curChainId)
     await this.offlineSigner.getAccounts()
@@ -45,17 +36,17 @@ export class KeplrWallet extends WalletProvider {
    * @returns A promise that resolves to the address of the connected wallet.
    */
   async getAddress(): Promise<string> {
-    const curChainId = this.getChainId()
+    const curChainId = await this.getNetwork()
     const key = await this.provider.getKey(curChainId)
     return key.bech32Address
   }
 
   async getNetwork(): Promise<string> {
-    return this.getChainId()
+    return this.chains?.[0]?.network
   }
 
   async getAccounts(): Promise<AccountData[]> {
-    const key = await this.provider.getKey(this.getChainId())
+    const key = await this.provider.getKey(await this.getNetwork())
 
     return [
       {
@@ -72,18 +63,19 @@ export class KeplrWallet extends WalletProvider {
     signDoc: StdSignDoc,
     signOptions?: KeplrSignOptions
   ): Promise<AminoSignResponse> {
-    if (this.getChainId() !== signDoc.chain_id) {
+    const chainId = await this.getNetwork()
+    if (chainId !== signDoc.chain_id) {
       throw new Error('Unmatched chain id with the offline signer')
     }
 
-    const key = await this.provider.getKey(signDoc.chain_id)
+    const key = await this.provider.getKey(chainId)
 
     if (key.bech32Address !== signerAddress) {
       throw new Error('Unknown signer address')
     }
 
     return await this.provider.signAmino(
-      this.getChainId(),
+      chainId,
       signerAddress,
       signDoc,
       signOptions

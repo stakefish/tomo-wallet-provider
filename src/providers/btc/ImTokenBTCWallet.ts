@@ -1,30 +1,22 @@
-import {
-  Inscription,
-  InscriptionResult,
-  Network,
-  WalletInfo,
-  WalletProvider
-} from '../../wallet_provider'
+import { Network, WalletInfo } from '../../WalletProvider'
 
 import { Psbt } from 'bitcoinjs-lib'
 import { parseUnits } from '../../utils/parseUnits'
 import { toNetwork } from '../../config/network.config'
-import { initBTCEccLib } from '../../utils/eccLibUtils'
-import { BTCProvider } from './btc_wallet'
+import { BTCProvider } from './BTCProvider'
 
 // window object for imToken Wallet
 export const imTokenWalletProvider = 'bitcoin'
 
-export class ImTokenWallet extends BTCProvider {
+export class ImTokenBTCWallet extends BTCProvider {
   private walletInfo: WalletInfo | undefined
   constructor() {
-    super()
-
-    this.bitcoinNetworkProvider = window?.[imTokenWalletProvider]
-    if (!this.bitcoinNetworkProvider) {
+    // @ts-ignore
+    const bitcoinNetworkProvider = window?.[imTokenWalletProvider]
+    if (!bitcoinNetworkProvider) {
       throw new Error('imToken Wallet not found')
     }
-    initBTCEccLib()
+    super(bitcoinNetworkProvider)
   }
 
   connectWallet = async (): Promise<this> => {

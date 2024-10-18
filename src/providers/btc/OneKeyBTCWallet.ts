@@ -1,5 +1,5 @@
-import { Network } from '../../wallet_provider'
-import { BTCProvider } from './btc_wallet'
+import { Network } from '../../WalletProvider'
+import { BTCProvider } from './BTCProvider'
 
 export const oneKeyProvider = '$onekey'
 
@@ -10,17 +10,15 @@ const INTERNAL_NETWORK_NAMES = {
   [Network.SIGNET]: 'signet'
 }
 
-export class OneKeyWallet extends BTCProvider {
+export class OneKeyBTCWallet extends BTCProvider {
   constructor() {
-    super()
-
+    // @ts-ignore
+    const bitcoinNetworkProvider = window[oneKeyProvider]?.btcwallet
     // check whether there is an OneKey extension
-    if (!window[oneKeyProvider]?.btcwallet) {
+    if (!bitcoinNetworkProvider) {
       throw new Error('OneKey Wallet extension not found')
     }
-
-    // OneKey provider stays the same for all networks
-    this.bitcoinNetworkProvider = window[oneKeyProvider]?.btcwallet
+    super(bitcoinNetworkProvider)
   }
 
   async connectWallet(): Promise<this> {

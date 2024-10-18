@@ -1,12 +1,6 @@
-import {
-  InscriptionResult,
-  Network,
-  WalletProvider
-} from '../../wallet_provider'
-import { parseUnits } from '../../utils/parseUnits'
-import { getAddressBalance } from '../../mempool_api'
+import { InscriptionResult, Network } from '../../WalletProvider'
 import { Psbt } from 'bitcoinjs-lib'
-import { BTCProvider } from './btc_wallet'
+import { BTCProvider } from './BTCProvider'
 
 const INTERNAL_NETWORK_NAMES = {
   [Network.MAINNET]: 'livenet',
@@ -17,16 +11,14 @@ const INTERNAL_NETWORK_NAMES = {
 // window object for Bitget Wallet extension
 export const bitgetWalletProvider = 'bitkeep'
 
-export class BitgetWallet extends BTCProvider {
+export class BitgetBTCWallet extends BTCProvider {
   constructor() {
-    super()
-
-    // check whether there is an Bitget Wallet extension
-    if (!window[bitgetWalletProvider]?.unisat) {
+    // @ts-ignore
+    const bitcoinNetworkProvider = window[bitgetWalletProvider].unisat
+    if (!bitcoinNetworkProvider) {
       throw new Error('Bitget Wallet extension not found')
     }
-
-    this.bitcoinNetworkProvider = window[bitgetWalletProvider].unisat
+    super(bitcoinNetworkProvider)
   }
 
   connectWallet = async (): Promise<any> => {

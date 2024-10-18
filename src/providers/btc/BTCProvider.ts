@@ -5,7 +5,7 @@ import {
   getNetworkFees,
   getTipHeight,
   pushTx
-} from '../../mempool_api'
+} from '../../mempoolApi'
 import { parseUnits } from '../../utils/parseUnits'
 import {
   Fees,
@@ -13,7 +13,8 @@ import {
   Network,
   UTXO,
   WalletProvider
-} from '../../wallet_provider'
+} from '../../WalletProvider'
+import { initBTCEccLib } from '../../utils/eccLibUtils'
 
 /**
  * Abstract class representing a wallet provider.
@@ -22,7 +23,11 @@ import {
 
 export abstract class BTCProvider extends WalletProvider {
   bitcoinNetworkProvider: any
-
+  constructor(bitcoinNetworkProvider: any) {
+    super([])
+    this.bitcoinNetworkProvider = bitcoinNetworkProvider
+    initBTCEccLib()
+  }
   /**
    * Gets the address of the connected wallet.
    * @returns A promise that resolves to the address of the connected wallet.

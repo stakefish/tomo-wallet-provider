@@ -18,13 +18,13 @@ import { toXOnly } from 'bitcoinjs-lib/src/psbt/bip371'
 import { pubkeyInScript } from 'bitcoinjs-lib/src/psbt/psbtutils'
 
 import { WalletError, WalletErrorType } from '../../../config/errors'
-import { Network } from '../../../wallet_provider'
+import { Network } from '../../../WalletProvider'
 
 import BIP322 from './bip322'
 import { parseUnits } from '../../../utils/parseUnits'
 import { toNetwork } from '../../../config/network.config'
 import { initBTCEccLib } from '../../../utils/eccLibUtils'
-import { BTCProvider } from '../btc_wallet'
+import { BTCProvider } from '../BTCProvider'
 
 type KeystoneWalletInfo = {
   mfp: string | undefined

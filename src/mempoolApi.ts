@@ -1,4 +1,4 @@
-import { Fees, InscriptionResult, Network, UTXO } from './wallet_provider'
+import { Fees, InscriptionResult, Network, UTXO } from './WalletProvider'
 
 /*
     URL Construction methods
@@ -160,7 +160,7 @@ export async function getTipHeight(network: Network): Promise<number> {
 export async function getFundingUTXOs(
   network: Network,
   address: string,
-  amount: number,
+  amount?: number,
   url?: URL
 ): Promise<UTXO[]> {
   // Get all UTXOs for the given address

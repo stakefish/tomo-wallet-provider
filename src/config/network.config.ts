@@ -1,4 +1,4 @@
-import { Network } from '../wallet_provider'
+import { Network } from '../WalletProvider'
 import { networks } from 'bitcoinjs-lib'
 
 export const network = Network.MAINNET
