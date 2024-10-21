@@ -1,4 +1,4 @@
-import { Network } from '../../WalletProvider'
+import { Network, TomoChain } from '../../WalletProvider'
 import { BTCProvider } from './BTCProvider'
 
 export const oneKeyProvider = '$onekey'
@@ -11,14 +11,14 @@ const INTERNAL_NETWORK_NAMES = {
 }
 
 export class OneKeyBTCWallet extends BTCProvider {
-  constructor() {
+  constructor(chains: TomoChain[]) {
     // @ts-ignore
     const bitcoinNetworkProvider = window[oneKeyProvider]?.btcwallet
     // check whether there is an OneKey extension
     if (!bitcoinNetworkProvider) {
       throw new Error('OneKey Wallet extension not found')
     }
-    super(bitcoinNetworkProvider)
+    super(chains, bitcoinNetworkProvider)
   }
 
   async connectWallet(): Promise<this> {

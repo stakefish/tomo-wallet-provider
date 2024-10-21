@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
+    "@cosmjs/stargate": "^0.32.4",
     "@keplr-wallet/types": "^0.12.130",
     "@keystonehq/animated-qr": "^0.8.6",
     "@keystonehq/keystone-sdk": "^0.4.1",

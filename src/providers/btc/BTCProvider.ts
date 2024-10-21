@@ -4,13 +4,15 @@ import {
   getInscriptions,
   getNetworkFees,
   getTipHeight,
-  pushTx
+  pushTx,
+  setBtcApiUrl
 } from '../../mempoolApi'
 import { parseUnits } from '../../utils/parseUnits'
 import {
   Fees,
   InscriptionResult,
   Network,
+  TomoChain,
   UTXO,
   WalletProvider
 } from '../../WalletProvider'
@@ -23,10 +25,11 @@ import { initBTCEccLib } from '../../utils/eccLibUtils'
 
 export abstract class BTCProvider extends WalletProvider {
   bitcoinNetworkProvider: any
-  constructor(bitcoinNetworkProvider: any) {
-    super([])
+  constructor(chains: TomoChain[], bitcoinNetworkProvider: any) {
+    super(chains)
     this.bitcoinNetworkProvider = bitcoinNetworkProvider
     initBTCEccLib()
+    setBtcApiUrl(chains?.[0]?.rpcUrls?.default?.http?.[0])
   }
   /**
    * Gets the address of the connected wallet.

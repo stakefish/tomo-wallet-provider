@@ -1,5 +1,10 @@
 import { validateAddress } from '../../config/network.config'
-import { InscriptionResult, Network, WalletInfo } from '../../WalletProvider'
+import {
+  InscriptionResult,
+  Network,
+  TomoChain,
+  WalletInfo
+} from '../../WalletProvider'
 import { parseUnits } from '../../utils/parseUnits'
 import { BTCProvider } from './BTCProvider'
 
@@ -8,7 +13,7 @@ export class OKXBTCWallet extends BTCProvider {
   private okxWallet: any
   private networkEnv: Network | undefined = Network.MAINNET
 
-  constructor() {
+  constructor(chains: TomoChain[]) {
     // @ts-ignore
     const okxWallet = window.okxwallet
     const bitcoinNetworkProvider = okxWallet?.bitcoin
@@ -16,7 +21,7 @@ export class OKXBTCWallet extends BTCProvider {
     if (!bitcoinNetworkProvider) {
       throw new Error('OKX Wallet extension not found')
     }
-    super(bitcoinNetworkProvider)
+    super(chains, bitcoinNetworkProvider)
     this.okxWallet = okxWallet
   }
 
@@ -103,9 +108,9 @@ export class OKXBTCWallet extends BTCProvider {
     return this.okxWalletInfo.publicKeyHex
   }
 
-  getBalance = async (): Promise<number> => {
-    return (await this.bitcoinNetworkProvider.getBalance()).total
-  }
+  // getBalance = async (): Promise<number> => {
+  //   return (await this.bitcoinNetworkProvider.getBalance()).total
+  // }
 
   pushTx = async (txHex: string): Promise<string> => {
     return await this.bitcoinNetworkProvider.pushTx(txHex)

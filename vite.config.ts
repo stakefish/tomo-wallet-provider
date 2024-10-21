@@ -30,6 +30,7 @@ export default defineConfig({
       fileName: 'main'
     },
     rollupOptions: {
+      external: ['react', 'react-dom', '@scure/bip32', '@cosmjs/stargate'],
       plugins: [
         typescriptPaths({
           preserveExtensions: true

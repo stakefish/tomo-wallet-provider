@@ -1,16 +1,17 @@
 import { BTCProvider } from './BTCProvider'
+import { TomoChain } from '../../WalletProvider'
 
 export const tomoProvider = 'tomo_btc'
 
 export class TomoBTCWallet extends BTCProvider {
-  constructor() {
+  constructor(chains: TomoChain[]) {
     // @ts-ignore
     const bitcoinNetworkProvider = window[tomoProvider]
     // check whether there is Tomo extension
     if (!bitcoinNetworkProvider) {
       throw new Error('Tomo Wallet extension not found')
     }
-    super(bitcoinNetworkProvider)
+    super(chains, bitcoinNetworkProvider)
   }
 
   connectWallet = async (): Promise<this> => {

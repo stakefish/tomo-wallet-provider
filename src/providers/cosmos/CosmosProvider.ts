@@ -10,10 +10,14 @@ import {
   OfflineAminoSigner,
   OfflineDirectSigner
 } from '@keplr-wallet/types/src/cosmjs'
+import { SigningStargateClient } from '@cosmjs/stargate'
+
+const DEFAULT_RPC = 'https://cosmoshub.validator.network:443'
 
 export class CosmosProvider extends WalletProvider {
   provider: Keplr
   offlineSigner?: OfflineAminoSigner & OfflineDirectSigner
+  clientPromise?: Promise<SigningStargateClient>
   constructor(chains: any[], provider: Keplr) {
     super(chains)
     this.provider = provider
@@ -27,8 +31,25 @@ export class CosmosProvider extends WalletProvider {
     await this.getAddress()
     return this
   }
-  getWalletProviderName(): Promise<string> {
-    throw new Error('Method not implemented.')
+
+  async getSigningStargateClient() {
+    if (!this.clientPromise) {
+      const rpcUrl =
+        this.chains?.[0]?.rpcUrls?.default?.http?.[0] || DEFAULT_RPC
+      this.clientPromise = SigningStargateClient.connectWithSigner(
+        rpcUrl,
+        this.offlineSigner
+      )
+    }
+    return await this.clientPromise
+  }
+
+  async getBalance() {
+    const signingStargateClient = await this.getSigningStargateClient()
+    return BigInt(
+      (await signingStargateClient.getBalance(await this.getAddress(), 'uatom'))
+        .amount
+    )
   }
 
   /**

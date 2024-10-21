@@ -1,6 +1,7 @@
 import {
   InscriptionResult,
   Network,
+  TomoChain,
   WalletInfo,
   WalletProvider
 } from '../../WalletProvider'
@@ -12,14 +13,14 @@ export const unisatProvider = 'unisat'
 export class UniSatBTCWallet extends BTCProvider {
   private unisatWalletInfo: WalletInfo | undefined
 
-  constructor() {
+  constructor(chains: TomoChain[]) {
     // @ts-ignore
     const bitcoinNetworkProvider = window[unisatProvider]
     // check whether there is an OKX Wallet extension
     if (!bitcoinNetworkProvider) {
       throw new Error('UniSat Wallet extension not found')
     }
-    super(bitcoinNetworkProvider)
+    super(chains, bitcoinNetworkProvider)
   }
 
   connectWallet = async (): Promise<this> => {

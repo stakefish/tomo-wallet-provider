@@ -1,4 +1,4 @@
-import { Network, WalletProvider } from '../../WalletProvider'
+import { Network, TomoChain, WalletProvider } from '../../WalletProvider'
 import { Psbt } from 'bitcoinjs-lib'
 import { parseUnits } from '../../utils/parseUnits'
 import { toNetwork } from '../../config/network.config'
@@ -6,13 +6,13 @@ import { initBTCEccLib } from '../../utils/eccLibUtils'
 import { BTCProvider } from './BTCProvider'
 
 export class BinanceBTCWallet extends BTCProvider {
-  constructor() {
+  constructor(chains: TomoChain[]) {
     // @ts-ignore
     const bitcoinNetworkProvider = window?.binancew3w?.bitcoin
     if (!bitcoinNetworkProvider) {
       throw new Error('Binance Wallet not found')
     }
-    super(bitcoinNetworkProvider)
+    super(chains, bitcoinNetworkProvider)
     initBTCEccLib()
   }
 

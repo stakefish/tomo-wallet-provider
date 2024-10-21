@@ -8,7 +8,16 @@ import { Fees, InscriptionResult, Network, UTXO } from './WalletProvider'
 // utilise
 // const mempoolAPI = `${process.env.NEXT_PUBLIC_MEMPOOL_API}/signet/api/`;
 
+let baseUrl: string | undefined
+
+export function setBtcApiUrl(url: string | undefined) {
+  baseUrl = url
+}
+
 const getBaseUrl = (network: Network) => {
+  if (baseUrl) {
+    return baseUrl + '/'
+  }
   if (network === Network.MAINNET) {
     return 'https://mempool.space/api/'
   } else if (network === Network.TESTNET) {

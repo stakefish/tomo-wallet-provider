@@ -57,6 +57,11 @@ export type WalletInfo = {
 
 export type TomoChain = {
   network: string
+  rpcUrls?: {
+    default: {
+      http: string[]
+    }
+  }
 }
 
 /**

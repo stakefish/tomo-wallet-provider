@@ -18,7 +18,7 @@ import { toXOnly } from 'bitcoinjs-lib/src/psbt/bip371'
 import { pubkeyInScript } from 'bitcoinjs-lib/src/psbt/psbtutils'
 
 import { WalletError, WalletErrorType } from '../../../config/errors'
-import { Network } from '../../../WalletProvider'
+import { Network, TomoChain } from '../../../WalletProvider'
 
 import BIP322 from './bip322'
 import { parseUnits } from '../../../utils/parseUnits'
@@ -41,8 +41,8 @@ export class KeystoneWallet extends BTCProvider {
   private dataSdk: KeystoneSDK
   private networkEnv: Network | undefined
 
-  constructor() {
-    super()
+  constructor(chains: TomoChain[]) {
+    super(chains, {})
     initBTCEccLib()
     sdk.bootstrap()
     this.viewSdk = sdk

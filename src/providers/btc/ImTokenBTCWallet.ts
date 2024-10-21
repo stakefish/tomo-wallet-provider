@@ -1,4 +1,4 @@
-import { Network, WalletInfo } from '../../WalletProvider'
+import { Network, TomoChain, WalletInfo } from '../../WalletProvider'
 
 import { Psbt } from 'bitcoinjs-lib'
 import { parseUnits } from '../../utils/parseUnits'
@@ -10,13 +10,13 @@ export const imTokenWalletProvider = 'bitcoin'
 
 export class ImTokenBTCWallet extends BTCProvider {
   private walletInfo: WalletInfo | undefined
-  constructor() {
+  constructor(chains: TomoChain[]) {
     // @ts-ignore
     const bitcoinNetworkProvider = window?.[imTokenWalletProvider]
     if (!bitcoinNetworkProvider) {
       throw new Error('imToken Wallet not found')
     }
-    super(bitcoinNetworkProvider)
+    super(chains, bitcoinNetworkProvider)
   }
 
   connectWallet = async (): Promise<this> => {

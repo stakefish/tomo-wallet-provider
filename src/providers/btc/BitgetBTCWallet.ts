@@ -1,4 +1,4 @@
-import { InscriptionResult, Network } from '../../WalletProvider'
+import { InscriptionResult, Network, TomoChain } from '../../WalletProvider'
 import { Psbt } from 'bitcoinjs-lib'
 import { BTCProvider } from './BTCProvider'
 
@@ -12,13 +12,13 @@ const INTERNAL_NETWORK_NAMES = {
 export const bitgetWalletProvider = 'bitkeep'
 
 export class BitgetBTCWallet extends BTCProvider {
-  constructor() {
+  constructor(chains: TomoChain[]) {
     // @ts-ignore
     const bitcoinNetworkProvider = window[bitgetWalletProvider].unisat
     if (!bitcoinNetworkProvider) {
       throw new Error('Bitget Wallet extension not found')
     }
-    super(bitcoinNetworkProvider)
+    super(chains, bitcoinNetworkProvider)
   }
 
   connectWallet = async (): Promise<any> => {
