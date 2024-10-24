@@ -10,6 +10,7 @@ import binanceIcon from './icons/binance.webp'
 import cosmostationIcon from './icons/cosmostation.ico'
 import stationIcon from './icons/station.svg'
 import leapIcon from './icons/leap.jpg'
+import cactuslinkIcon from './icons/cactuslink.svg'
 import { OKXBTCWallet } from './providers/btc/OKXBTCWallet'
 import { UniSatBTCWallet } from './providers/btc/UniSatBTCWallet'
 import { TomoBTCWallet } from './providers/btc/TomoBTCWallet'
@@ -26,6 +27,7 @@ import { LeapCosmosWallet } from './providers/cosmos/LeapCosmosWallet'
 import { BitgetCosmosWallet } from './providers/cosmos/BitgetCosmosWallet'
 import { OneKeyCosmosWallet } from './providers/cosmos/OneKeyCosmosWallet'
 import { StationCosmosWallet } from './providers/cosmos/StationCosmosWallet'
+import { CactusLinkBTCWallet } from './providers/btc/CactusLinkBTCWallet'
 
 type TomoWalletType = 'extension' | 'qrcode' | 'injected'
 
@@ -79,6 +81,14 @@ export const walletList: TomoWallet[] = [
     name: 'Bitget',
     chainType: 'bitcoin',
     connectProvider: BitgetBTCWallet,
+    type: 'extension'
+  },
+  {
+    id: 'bitcoin_cactuslink',
+    img: cactuslinkIcon,
+    name: 'Cactus Link',
+    chainType: 'bitcoin',
+    connectProvider: CactusLinkBTCWallet,
     type: 'extension'
   },
   {

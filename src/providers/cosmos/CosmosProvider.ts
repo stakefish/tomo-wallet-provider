@@ -4,6 +4,7 @@ import {
   AminoSignResponse,
   Keplr,
   KeplrSignOptions,
+  StdSignature,
   StdSignDoc
 } from '@keplr-wallet/types'
 import {
@@ -44,11 +45,15 @@ export class CosmosProvider extends WalletProvider {
     return await this.clientPromise
   }
 
-  async getBalance() {
+  async getBalance(searchDenom: string) {
     const signingStargateClient = await this.getSigningStargateClient()
     return BigInt(
-      (await signingStargateClient.getBalance(await this.getAddress(), 'uatom'))
-        .amount
+      (
+        await signingStargateClient.getBalance(
+          await this.getAddress(),
+          searchDenom
+        )
+      ).amount
     )
   }
 
@@ -101,5 +106,13 @@ export class CosmosProvider extends WalletProvider {
       signDoc,
       signOptions
     )
+  }
+
+  async signArbitrary(
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    const chainId = await this.getNetwork()
+    return await this.provider.signArbitrary(chainId, signer, data)
   }
 }

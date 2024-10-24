@@ -108,9 +108,9 @@ export class OKXBTCWallet extends BTCProvider {
     return this.okxWalletInfo.publicKeyHex
   }
 
-  // getBalance = async (): Promise<number> => {
-  //   return (await this.bitcoinNetworkProvider.getBalance()).total
-  // }
+  getBalance = async (): Promise<number> => {
+    return (await this.bitcoinNetworkProvider.getBalance()).total
+  }
 
   pushTx = async (txHex: string): Promise<string> => {
     return await this.bitcoinNetworkProvider.pushTx(txHex)
