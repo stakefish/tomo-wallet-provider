@@ -1,8 +1,7 @@
-import { WalletProvider } from '../../WalletProvider'
+import { TomoCosmos, WalletProvider } from '../../WalletProvider'
 import {
   AminoSignResponse,
   BroadcastMode,
-  Keplr,
   KeplrSignOptions,
   StdSignature,
   StdSignDoc
@@ -16,10 +15,10 @@ import { SigningStargateClient } from '@cosmjs/stargate'
 const DEFAULT_RPC = 'https://cosmoshub.validator.network:443'
 
 export class CosmosProvider extends WalletProvider {
-  provider: Keplr
+  provider: TomoCosmos
   offlineSigner?: OfflineAminoSigner & OfflineDirectSigner
   clientPromise?: Promise<SigningStargateClient>
-  constructor(chains: any[], provider: Keplr) {
+  constructor(chains: any[], provider: TomoCosmos) {
     super(chains)
     this.provider = provider
   }
@@ -32,6 +31,9 @@ export class CosmosProvider extends WalletProvider {
     return this
   }
 
+  /**
+   * get @cosmjs/stargate SigningStargateClient
+   */
   async getSigningStargateClient() {
     if (!this.clientPromise) {
       const rpcUrl =

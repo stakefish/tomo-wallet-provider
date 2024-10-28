@@ -1,3 +1,5 @@
+import { Keplr } from '@keplr-wallet/types'
+
 export type Fees = {
   // fee for inclusion in the next block
   fastestFee: number
@@ -63,6 +65,8 @@ export type TomoChain = {
     }
   }
 }
+
+export type TomoCosmos = Keplr
 
 /**
  * Abstract class representing a wallet provider.
