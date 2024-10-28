@@ -1,7 +1,7 @@
 import { WalletProvider } from '../../WalletProvider'
 import {
-  AccountData,
   AminoSignResponse,
+  BroadcastMode,
   Keplr,
   KeplrSignOptions,
   StdSignature,
@@ -28,7 +28,6 @@ export class CosmosProvider extends WalletProvider {
     const curChainId = await this.getNetwork()
     await this.provider.enable(curChainId)
     this.offlineSigner = this.provider.getOfflineSigner(curChainId)
-    await this.offlineSigner.getAccounts()
     await this.getAddress()
     return this
   }
@@ -58,7 +57,7 @@ export class CosmosProvider extends WalletProvider {
   }
 
   /**
-   * Gets the address of the connected wallet.
+   * Gets the bech32Address of the connected wallet.
    * @returns A promise that resolves to the address of the connected wallet.
    */
   async getAddress(): Promise<string> {
@@ -67,21 +66,11 @@ export class CosmosProvider extends WalletProvider {
     return key.bech32Address
   }
 
+  /**
+   * get the chainId of the connected wallet
+   */
   async getNetwork(): Promise<string> {
     return this.chains?.[0]?.network
-  }
-
-  async getAccounts(): Promise<AccountData[]> {
-    const key = await this.provider.getKey(await this.getNetwork())
-
-    return [
-      {
-        address: key.bech32Address,
-        // Currently, only secp256k1 is supported.
-        algo: 'secp256k1',
-        pubkey: key.pubKey
-      }
-    ]
   }
 
   async signAmino(
@@ -114,5 +103,10 @@ export class CosmosProvider extends WalletProvider {
   ): Promise<StdSignature> {
     const chainId = await this.getNetwork()
     return await this.provider.signArbitrary(chainId, signer, data)
+  }
+
+  async sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array> {
+    const chainId = await this.getNetwork()
+    return this.provider.sendTx(chainId, tx, mode)
   }
 }
