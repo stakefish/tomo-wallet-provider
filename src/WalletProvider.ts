@@ -59,14 +59,12 @@ export type WalletInfo = {
 
 export type TomoChain = {
   network: string
-  rpcUrls?: {
-    default: {
-      http: string[]
-    }
-  }
+  rpc?: string
+  // only btc
+  serviceUrl?: string
 }
 
-export type TomoCosmos = Keplr
+export type TomoCosmosInjected = Keplr
 
 /**
  * Abstract class representing a wallet provider.

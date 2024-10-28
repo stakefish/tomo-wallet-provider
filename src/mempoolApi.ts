@@ -14,6 +14,12 @@ export function setBtcApiUrl(url: string | undefined) {
   baseUrl = url
 }
 
+let serviceUrl: string | undefined
+
+export function setBtcServiceApiUrl(url: string | undefined) {
+  serviceUrl = url
+}
+
 const getBaseUrl = (network: Network) => {
   if (baseUrl) {
     return baseUrl + '/'
@@ -231,10 +237,9 @@ export async function getInscriptions(params: {
   cursor?: number
   size?: number
 }): Promise<InscriptionResult> {
+  const url = serviceUrl || 'https://apps-prod.unyx.tech/api'
   const response = await fetch(
-    `https://apps-prod.unyx.tech/api/openapi/bitcoin/inscriptions${encodeQueryString(
-      params
-    )}`
+    `${url}/openapi/bitcoin/inscriptions${encodeQueryString(params)}`
   )
   if (!response.ok) {
     const err = await response.text()

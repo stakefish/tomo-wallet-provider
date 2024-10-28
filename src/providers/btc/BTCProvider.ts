@@ -5,7 +5,8 @@ import {
   getNetworkFees,
   getTipHeight,
   pushTx,
-  setBtcApiUrl
+  setBtcApiUrl,
+  setBtcServiceApiUrl
 } from '../../mempoolApi'
 import { parseUnits } from '../../utils/parseUnits'
 import {
@@ -18,18 +19,40 @@ import {
 } from '../../WalletProvider'
 import { initBTCEccLib } from '../../utils/eccLibUtils'
 
+export type TomoBitcoinInjected = {
+  // connect
+  requestAccounts: () => Promise<string[]>
+  getAccounts: () => Promise<string[]>
+  getPublicKey: () => Promise<string>
+  signPsbt: (psbtHex: string) => Promise<string>
+  signPsbts: (psbtsHexes: string[]) => Promise<string[]>
+  getNetwork: () => Promise<Network>
+  signMessage: (message: string, type: 'bip322-simple') => Promise<string>
+  switchNetwork: (network: Network) => Promise<void>
+  sendBitcoin: (to: string, amount: number) => Promise<string>
+  pushTx?: (txHex: string) => Promise<string>
+  getBalance?: (address: string) => Promise<number>
+  getInscriptions?: (
+    cursor?: number,
+    size?: number
+  ) => Promise<InscriptionResult[]>
+  on?: (eventName: string, callBack: () => void) => void
+  off?: (eventName: string, callBack: () => void) => void
+}
+
 /**
  * Abstract class representing a wallet provider.
  * Provides methods for connecting to a wallet, retrieving wallet information, signing transactions, and more.
  */
 
 export abstract class BTCProvider extends WalletProvider {
-  bitcoinNetworkProvider: any
+  bitcoinNetworkProvider: TomoBitcoinInjected
   constructor(chains: TomoChain[], bitcoinNetworkProvider: any) {
     super(chains)
     this.bitcoinNetworkProvider = bitcoinNetworkProvider
     initBTCEccLib()
-    setBtcApiUrl(chains?.[0]?.rpcUrls?.default?.http?.[0])
+    setBtcApiUrl(chains?.[0]?.rpc)
+    setBtcServiceApiUrl(chains?.[0]?.serviceUrl)
   }
   /**
    * Gets the address of the connected wallet.
@@ -77,7 +100,7 @@ export abstract class BTCProvider extends WalletProvider {
     return (await this.bitcoinNetworkProvider.getNetwork()).replace(
       'livenet',
       'mainnet'
-    )
+    ) as Network
   }
 
   /**
@@ -99,10 +122,10 @@ export abstract class BTCProvider extends WalletProvider {
    * @param callBack - The callback function to be executed when the event occurs.
    */
   on(eventName: string, callBack: () => void) {
-    return this.bitcoinNetworkProvider.on(eventName, callBack)
+    this.bitcoinNetworkProvider?.on?.(eventName, callBack)
   }
   off(eventName: string, callBack: () => void): void {
-    return this.bitcoinNetworkProvider.off(eventName, callBack)
+    this.bitcoinNetworkProvider?.off?.(eventName, callBack)
   }
 
   async switchNetwork(network: Network): Promise<void> {
