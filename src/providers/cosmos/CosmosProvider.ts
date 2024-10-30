@@ -11,6 +11,7 @@ import {
   OfflineDirectSigner
 } from '@keplr-wallet/types/src/cosmjs'
 import { SigningStargateClient } from '@cosmjs/stargate'
+import { SigningStargateClientOptions } from '@cosmjs/stargate/build/signingstargateclient'
 
 const DEFAULT_RPC = 'https://cosmoshub.validator.network:443'
 
@@ -34,15 +35,20 @@ export class CosmosProvider extends WalletProvider {
   /**
    * get @cosmjs/stargate SigningStargateClient
    */
-  async getSigningStargateClient() {
+  async getSigningStargateClient(options?: SigningStargateClientOptions) {
     if (!this.clientPromise) {
-      const rpcUrl = this.chains?.[0]?.rpc || DEFAULT_RPC
-      this.clientPromise = SigningStargateClient.connectWithSigner(
-        rpcUrl,
-        this.offlineSigner
-      )
+      this.clientPromise = this.createSigningStargateClient(options)
     }
     return await this.clientPromise
+  }
+
+  async createSigningStargateClient(options?: SigningStargateClientOptions) {
+    const rpcUrl = this.chains?.[0]?.rpc || DEFAULT_RPC
+    return await SigningStargateClient.connectWithSigner(
+      rpcUrl,
+      this.offlineSigner,
+      options
+    )
   }
 
   async getBalance(searchDenom: string) {
