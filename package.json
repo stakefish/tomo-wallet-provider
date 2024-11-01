@@ -19,18 +19,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@bitcoinerlab/secp256k1": "^1.1.1",
-    "@cosmjs/stargate": "^0.32.4",
-    "@keplr-wallet/types": "^0.12.130",
-    "@keystonehq/animated-qr": "^0.8.6",
-    "@keystonehq/keystone-sdk": "^0.4.1",
-    "@keystonehq/sdk": "0.21.3",
-    "@scure/bip32": "^1.4.0",
-    "bitcoinjs-lib": "^6.1.5",
     "events": "^3.3.0",
-    "long": "^5.2.3",
-    "react": "^18",
-    "react-dom": "^18"
+    "long": "^5.2.3"
   },
   "peerDependencies": {
     "react": "^18",
@@ -45,6 +35,16 @@
     "bitcoinjs-lib": "^6.1.5"
   },
   "devDependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@bitcoinerlab/secp256k1": "^1.1.1",
+    "@cosmjs/stargate": "^0.32.4",
+    "@keplr-wallet/types": "^0.12.130",
+    "@keystonehq/animated-qr": "^0.8.6",
+    "@keystonehq/keystone-sdk": "^0.4.1",
+    "@keystonehq/sdk": "0.21.3",
+    "@scure/bip32": "^1.4.0",
+    "bitcoinjs-lib": "^6.1.5",
     "@rollup/plugin-typescript": "^8.2.1",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^14.3.1",
