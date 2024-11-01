@@ -30,7 +30,17 @@ export default defineConfig({
       fileName: 'main'
     },
     rollupOptions: {
-      external: ['react', 'react-dom', '@scure/bip32', '@cosmjs/stargate'],
+      external: [
+        'react',
+        'react-dom',
+        '@bitcoinerlab/secp256k1',
+        '@cosmjs/stargate',
+        '@keystonehq/animated-qr',
+        '@keystonehq/keystone-sdk',
+        '@keystonehq/sdk',
+        '@scure/bip32',
+        'bitcoinjs-lib'
+      ],
       plugins: [
         typescriptPaths({
           preserveExtensions: true
