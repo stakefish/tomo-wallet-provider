@@ -29,7 +29,7 @@ const getBaseUrl = (network: Network) => {
   } else if (network === Network.TESTNET) {
     return 'https://mempool.space/testnet/api/'
   } else if (network === Network.SIGNET) {
-    return 'https://btc-rpc-signet.tomo.inc/signet/api'
+    return 'https://btc-rpc-signet.tomo.inc/signet/api/'
   }
 }
 
