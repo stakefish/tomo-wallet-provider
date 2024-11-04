@@ -51,8 +51,8 @@ export abstract class BTCProvider extends WalletProvider {
     super(chains)
     this.bitcoinNetworkProvider = bitcoinNetworkProvider
     initBTCEccLib()
-    setBtcApiUrl(chains?.[0]?.rpc)
-    setBtcServiceApiUrl(chains?.[0]?.serviceUrl)
+    setBtcApiUrl(chains?.[0]?.backendUrls?.mempoolUrl)
+    setBtcServiceApiUrl(chains?.[0]?.backendUrls?.inscriptionUrl)
   }
   /**
    * Gets the address of the connected wallet.

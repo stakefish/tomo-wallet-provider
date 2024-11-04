@@ -59,9 +59,12 @@ export type WalletInfo = {
 
 export type TomoChain = {
   network: string
-  rpc?: string
-  // only btc
-  serviceUrl?: string
+  backendUrls?: {
+    rpcRrl?: string
+    // only BTC
+    mempoolUrl?: string
+    inscriptionUrl?: string
+  }
 }
 
 export type TomoCosmosInjected = Keplr

@@ -25,11 +25,11 @@ const getBaseUrl = (network: Network) => {
     return baseUrl + '/'
   }
   if (network === Network.MAINNET) {
-    return 'https://mempool.space/api/'
+    return 'https://btc-rpc.tomo.inc/api/'
   } else if (network === Network.TESTNET) {
     return 'https://mempool.space/testnet/api/'
   } else if (network === Network.SIGNET) {
-    return 'https://mempool.space/signet/api/'
+    return 'https://btc-rpc-signet.tomo.inc/api/'
   }
 }
 
@@ -175,14 +175,13 @@ export async function getTipHeight(network: Network): Promise<number> {
 export async function getFundingUTXOs(
   network: Network,
   address: string,
-  amount?: number,
-  url?: URL
+  amount?: number
 ): Promise<UTXO[]> {
   // Get all UTXOs for the given address
 
   let utxos = null
   try {
-    const response = await fetch(url || utxosInfoUrl(network, address))
+    const response = await fetch(utxosInfoUrl(network, address))
     utxos = await response.json()
   } catch (error: Error | any) {
     throw new Error(error?.message || error)
@@ -215,11 +214,7 @@ export async function getFundingUTXOs(
   // The result contains some extra information,
   var result = []
   for (var i = 0; i < sliced.length; ++i) {
-    const response = await fetch(
-      url
-        ? 'https://babylon.mempool.space/api/tx/' + sliced[i].txid
-        : txInfoUrl(network, sliced[i].txid)
-    )
+    const response = await fetch(txInfoUrl(network, sliced[i].txid))
     const transactionInfo = await response.json()
     result.push({
       txid: sliced[i].txid,
