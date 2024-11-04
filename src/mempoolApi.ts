@@ -29,7 +29,7 @@ const getBaseUrl = (network: Network) => {
   } else if (network === Network.TESTNET) {
     return 'https://mempool.space/testnet/api/'
   } else if (network === Network.SIGNET) {
-    return 'https://btc-rpc-signet.tomo.inc/api/'
+    return 'https://btc-rpc-signet.tomo.inc/signet/api'
   }
 }
 
@@ -228,7 +228,7 @@ export async function getFundingUTXOs(
 
 export async function getInscriptions(params: {
   address: string
-  networkType: string
+  networkType: 'MAINNET' | 'SIGNET' | 'TESTNET'
   cursor?: number
   size?: number
 }): Promise<InscriptionResult> {
