@@ -193,6 +193,16 @@ export class KeystoneWallet extends BTCProvider {
     return BIP322.encodeWitness(signedPsbt)
   }
 
+  async signMessage(
+    message: string,
+    type: 'ecdsa' | 'bip322-simple' = 'ecdsa'
+  ): Promise<string> {
+    if (type === 'bip322-simple') {
+      return await this.signMessageBIP322(message)
+    }
+    throw new Error('Unsupported message signing type')
+  }
+
   /**
    * Sign the PSBT with the Keystone device.
    *

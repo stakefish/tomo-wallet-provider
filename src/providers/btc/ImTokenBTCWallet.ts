@@ -76,10 +76,13 @@ export class ImTokenBTCWallet extends BTCProvider {
     })
   }
 
-  signMessageBIP322 = async (message: string): Promise<string> => {
+  async signMessage(
+    message: string,
+    type: 'ecdsa' | 'bip322-simple' = 'ecdsa'
+  ): Promise<string> {
     return await this.bitcoinNetworkProvider.request({
       method: 'btc_signMessage',
-      params: [message, 'bip322-simple']
+      params: [message, type]
     })
   }
 

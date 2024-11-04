@@ -25,11 +25,11 @@ const getBaseUrl = (network: Network) => {
     return baseUrl + '/'
   }
   if (network === Network.MAINNET) {
-    return 'https://btc-rpc.tomo.inc/api/'
+    return 'https://mempool.space/api/'
   } else if (network === Network.TESTNET) {
     return 'https://mempool.space/testnet/api/'
   } else if (network === Network.SIGNET) {
-    return 'https://btc-rpc-signet.tomo.inc/signet/api/'
+    return 'https://mempool.space/signet/api/'
   }
 }
 
@@ -164,6 +164,12 @@ export async function getTipHeight(network: Network): Promise<number> {
   return height
 }
 
+// URL for validating an address which contains a set of information about the address
+// including the scriptPubKey
+function validateAddressUrl(network: Network, address: string): URL {
+  return new URL(getBaseUrl(network) + 'v1/validate-address/' + address)
+}
+
 /**
  * Retrieve a set of UTXOs that are available to an address and are enough to
  * fund a transaction with a total `amount` of Satoshis in its output. The UTXOs
@@ -196,34 +202,40 @@ export async function getFundingUTXOs(
     .filter((utxo: any) => utxo.status.confirmed)
     .sort((a: any, b: any) => b.value - a.value)
 
-  // Reduce the list of UTXOs into a list that contains just enough
-  // UTXOs to satisfy the `amount` requirement.
-  var sum = 0
-  for (var i = 0; i < confirmedUTXOs.length; ++i) {
-    sum += confirmedUTXOs[i].value
-    if (sum > amount) {
-      break
+  // If amount is provided, reduce the list of UTXOs into a list that
+  // contains just enough UTXOs to satisfy the `amount` requirement.
+  let sliced = confirmedUTXOs
+  if (amount) {
+    var sum = 0
+    for (var i = 0; i < confirmedUTXOs.length; ++i) {
+      sum += confirmedUTXOs[i].value
+      if (sum > amount) {
+        break
+      }
     }
+    if (sum < amount) {
+      return []
+    }
+    sliced = confirmedUTXOs.slice(0, i + 1)
   }
-  if (sum < amount) {
-    return []
+
+  const response = await fetch(validateAddressUrl(network, address))
+  const addressInfo = await response.json()
+  const { isvalid, scriptPubKey } = addressInfo
+  if (!isvalid) {
+    throw new Error('Invalid address')
   }
-  const sliced = confirmedUTXOs.slice(0, i + 1)
 
   // Iterate through the final list of UTXOs to construct the result list.
   // The result contains some extra information,
-  var result = []
-  for (var i = 0; i < sliced.length; ++i) {
-    const response = await fetch(txInfoUrl(network, sliced[i].txid))
-    const transactionInfo = await response.json()
-    result.push({
-      txid: sliced[i].txid,
-      vout: sliced[i].vout,
-      value: sliced[i].value,
-      scriptPubKey: transactionInfo.vout[sliced[i].vout].scriptpubkey
-    })
-  }
-  return result
+  return sliced.map((s: any) => {
+    return {
+      txid: s.txid,
+      vout: s.vout,
+      value: s.value,
+      scriptPubKey
+    }
+  })
 }
 
 export async function getInscriptions(params: {

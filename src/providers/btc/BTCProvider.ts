@@ -27,7 +27,11 @@ export type TomoBitcoinInjected = {
   signPsbt: (psbtHex: string) => Promise<string>
   signPsbts: (psbtsHexes: string[]) => Promise<string[]>
   getNetwork: () => Promise<Network>
-  signMessage: (message: string, type: 'bip322-simple') => Promise<string>
+  signMessage: (
+    message: string,
+    // default 'ecdsa'
+    type?: 'ecdsa' | 'bip322-simple'
+  ) => Promise<string>
   switchNetwork: (network: Network) => Promise<void>
   sendBitcoin: (to: string, amount: number) => Promise<string>
   pushTx?: (txHex: string) => Promise<string>
@@ -109,10 +113,14 @@ export abstract class BTCProvider extends WalletProvider {
    * @returns A promise that resolves to the signed message.
    */
   async signMessageBIP322(message: string): Promise<string> {
-    return await this.bitcoinNetworkProvider.signMessage(
-      message,
-      'bip322-simple'
-    )
+    return await this.signMessage(message, 'bip322-simple')
+  }
+
+  async signMessage(
+    message: string,
+    type: 'ecdsa' | 'bip322-simple' = 'ecdsa'
+  ): Promise<string> {
+    return await this.bitcoinNetworkProvider.signMessage(message, type)
   }
 
   /**
