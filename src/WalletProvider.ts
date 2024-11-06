@@ -60,7 +60,7 @@ export type WalletInfo = {
 export type TomoChain = {
   network: string
   backendUrls?: {
-    rpcRrl?: string
+    rpcUrl?: string
     // only BTC
     mempoolUrl?: string
     inscriptionUrl?: string

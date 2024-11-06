@@ -43,7 +43,7 @@ export class CosmosProvider extends WalletProvider {
   }
 
   async createSigningStargateClient(options?: SigningStargateClientOptions) {
-    const rpcUrl = this.chains?.[0]?.backendUrls?.rpcRrl || DEFAULT_RPC
+    const rpcUrl = this.chains?.[0]?.backendUrls?.rpcUrl || DEFAULT_RPC
     return await SigningStargateClient.connectWithSigner(
       rpcUrl,
       this.offlineSigner,
