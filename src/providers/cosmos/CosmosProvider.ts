@@ -1,4 +1,8 @@
-import { TomoCosmosInjected, WalletProvider } from '../../WalletProvider'
+import {
+  TomoChainCosmos,
+  TomoCosmosInjected,
+  WalletProvider
+} from '../../WalletProvider'
 import {
   AminoSignResponse,
   BroadcastMode,
@@ -19,7 +23,7 @@ export class CosmosProvider extends WalletProvider {
   provider: TomoCosmosInjected
   offlineSigner?: OfflineAminoSigner & OfflineDirectSigner
   clientPromise?: Promise<SigningStargateClient>
-  constructor(chains: any[], provider: TomoCosmosInjected) {
+  constructor(chains: TomoChainCosmos[], provider: TomoCosmosInjected) {
     super(chains)
     this.provider = provider
   }

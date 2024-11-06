@@ -13,7 +13,7 @@ import {
   Fees,
   InscriptionResult,
   Network,
-  TomoChain,
+  TomoChainBTC,
   UTXO,
   WalletProvider
 } from '../../WalletProvider'
@@ -51,7 +51,7 @@ export type TomoBitcoinInjected = {
 
 export abstract class BTCProvider extends WalletProvider {
   bitcoinNetworkProvider: TomoBitcoinInjected
-  constructor(chains: TomoChain[], bitcoinNetworkProvider: any) {
+  constructor(chains: TomoChainBTC[], bitcoinNetworkProvider: any) {
     super(chains)
     this.bitcoinNetworkProvider = bitcoinNetworkProvider
     initBTCEccLib()

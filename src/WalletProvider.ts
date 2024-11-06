@@ -59,11 +59,19 @@ export type WalletInfo = {
 
 export type TomoChain = {
   network: string
+  backendUrls?: Record<string, string>
+}
+
+export type TomoChainBTC = TomoChain & {
   backendUrls?: {
-    rpcUrl?: string
-    // only BTC
     mempoolUrl?: string
     inscriptionUrl?: string
+  }
+}
+
+export type TomoChainCosmos = TomoChain & {
+  backendUrls?: {
+    rpcUrl?: string
   }
 }
 
