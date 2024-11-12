@@ -48,6 +48,9 @@ export class CosmosProvider extends WalletProvider {
 
   async createSigningStargateClient(options?: SigningStargateClientOptions) {
     const rpcUrl = this.chains?.[0]?.backendUrls?.rpcUrl || DEFAULT_RPC
+    if (!this.offlineSigner) {
+      throw new Error('Offline signer is not initialized')
+    }
     return await SigningStargateClient.connectWithSigner(
       rpcUrl,
       this.offlineSigner,

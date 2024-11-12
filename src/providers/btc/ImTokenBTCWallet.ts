@@ -20,11 +20,13 @@ export class ImTokenBTCWallet extends BTCProvider {
   }
 
   connectWallet = async (): Promise<this> => {
+    // @ts-ignore
     const accounts = await this.bitcoinNetworkProvider.request({
       method: 'btc_requestAccounts'
     })
 
     const address = accounts[0]
+    // @ts-ignore
     const publicKeyHex = await this.bitcoinNetworkProvider.request({
       method: 'btc_getPublicKey'
     })
@@ -39,11 +41,8 @@ export class ImTokenBTCWallet extends BTCProvider {
     return this
   }
 
-  getWalletProviderName = async (): Promise<string> => {
-    return this.bitcoinNetworkProvider.name
-  }
-
   getAddress = async (): Promise<string> => {
+    // @ts-ignore
     const accounts = await this.bitcoinNetworkProvider.request({
       method: 'btc_requestAccounts'
     })
@@ -60,6 +59,7 @@ export class ImTokenBTCWallet extends BTCProvider {
   }
 
   signPsbt = async (psbtHex: string): Promise<string> => {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.request({
       method: 'btc_signPsbt',
       params: [psbtHex]
@@ -70,6 +70,7 @@ export class ImTokenBTCWallet extends BTCProvider {
     if (!psbtsHexes && !Array.isArray(psbtsHexes)) {
       throw new Error('params error')
     }
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.request({
       method: 'btc_signPsbts',
       params: [psbtsHexes]
@@ -80,6 +81,7 @@ export class ImTokenBTCWallet extends BTCProvider {
     message: string,
     type: 'ecdsa' | 'bip322-simple' = 'ecdsa'
   ): Promise<string> {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.request({
       method: 'btc_signMessage',
       params: [message, type]
@@ -87,6 +89,7 @@ export class ImTokenBTCWallet extends BTCProvider {
   }
 
   getNetwork = async (): Promise<Network> => {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.request({
       method: 'btc_getNetwork',
       params: []
@@ -95,21 +98,22 @@ export class ImTokenBTCWallet extends BTCProvider {
 
   on = (eventName: string, callBack: () => void) => {
     if (eventName === 'accountChanged') {
-      return this.bitcoinNetworkProvider?.on('accountsChanged', callBack)
+      return this.bitcoinNetworkProvider?.on?.('accountsChanged', callBack)
     }
-    return this.bitcoinNetworkProvider?.on(eventName, callBack)
+    return this.bitcoinNetworkProvider?.on?.(eventName, callBack)
   }
 
   off = (eventName: string, callBack: () => void) => {
     if (eventName === 'accountChanged') {
-      return this.bitcoinNetworkProvider?.off('accountsChanged', callBack)
+      return this.bitcoinNetworkProvider?.off?.('accountsChanged', callBack)
     }
-    return this.bitcoinNetworkProvider?.off(eventName, callBack)
+    return this.bitcoinNetworkProvider?.off?.(eventName, callBack)
   }
 
   getBalance = async (): Promise<number> => {
     const network = await this.getNetwork()
     if (network === Network.MAINNET) {
+      // @ts-ignore
       return await this.bitcoinNetworkProvider.request({
         method: 'btc_getBalance',
         params: [this.walletInfo?.address]

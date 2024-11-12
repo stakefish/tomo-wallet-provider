@@ -41,13 +41,9 @@ export class UniSatBTCWallet extends BTCProvider {
     }
   }
 
-  getWalletProviderName = async (): Promise<string> => {
-    return 'UniSat'
-  }
-
   async switchNetwork(network: Network) {
     return await this.bitcoinNetworkProvider.switchNetwork(
-      network.replace('mainnet', 'livenet')
+      network.replace('mainnet', 'livenet') as Network
     )
   }
 
@@ -60,17 +56,21 @@ export class UniSatBTCWallet extends BTCProvider {
   }
 
   getBalance = async (): Promise<number> => {
+    // @ts-ignore
     const result = await this.bitcoinNetworkProvider.getBalance()
+    // @ts-ignore
     return result.total
   }
 
   pushTx = async (txHex: string): Promise<string> => {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.pushTx(txHex)
   }
   async getInscriptions(
     cursor?: number,
     size?: number
   ): Promise<InscriptionResult> {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.getInscriptions(cursor, size)
   }
 }

@@ -19,7 +19,9 @@ export class TomoBTCWallet extends BTCProvider {
     if (!this.bitcoinNetworkProvider) {
       throw new Error('Tomo Wallet extension not found')
     }
+    // @ts-ignore
     if (this.bitcoinNetworkProvider.getVersion) {
+      // @ts-ignore
       const version = await this.bitcoinNetworkProvider.getVersion()
       if (version < workingVersion) {
         throw new Error('Please update Tomo Wallet to the latest version')
@@ -30,6 +32,7 @@ export class TomoBTCWallet extends BTCProvider {
     let pubKey = null
     try {
       // this will not throw an error even if user has no BTC Signet enabled
+      // @ts-ignore
       addresses = await this.bitcoinNetworkProvider.connectWallet()
       pubKey = await this.bitcoinNetworkProvider.getPublicKey()
       if (!addresses || addresses.length === 0 || !pubKey) {
@@ -42,16 +45,14 @@ export class TomoBTCWallet extends BTCProvider {
     return this
   }
 
-  getWalletProviderName = async (): Promise<string> => {
-    return 'Tomo'
-  }
-
   getBalance = async (): Promise<number> => {
+    // @ts-ignore
     const result = await this.bitcoinNetworkProvider.getBalance()
     return result
   }
 
   pushTx = async (txHex: string): Promise<string> => {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.pushTx(txHex)
   }
 }

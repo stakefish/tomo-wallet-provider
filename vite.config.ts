@@ -11,9 +11,7 @@ export default defineConfig({
   plugins: [/*wasm(), */ react(), tsconfigPaths()],
   test: {
     globals: true,
-    environment: 'happy-dom',
-    setupFiles: '.vitest/setup',
-    include: ['**/test.{ts,tsx}']
+    environment: 'happy-dom'
   },
   resolve: {
     alias: {

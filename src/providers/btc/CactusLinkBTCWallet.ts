@@ -33,6 +33,7 @@ export class CactusLinkBTCWallet extends BTCProvider {
   }
 
   signPsbt = async (psbtHex: string): Promise<string> => {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.signPsbt(psbtHex, {
       autoFinalized: true
     })
@@ -44,20 +45,21 @@ export class CactusLinkBTCWallet extends BTCProvider {
         autoFinalized: true
       }
     })
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.signPsbts(psbtsHexes, options)
   }
 
   on = (eventName: string, callBack: () => void) => {
     if (eventName === 'accountChanged') {
-      return this.bitcoinNetworkProvider?.on('accountsChanged', callBack)
+      return this.bitcoinNetworkProvider?.on?.('accountsChanged', callBack)
     }
-    return this.bitcoinNetworkProvider?.on(eventName, callBack)
+    return this.bitcoinNetworkProvider?.on?.(eventName, callBack)
   }
 
   off = (eventName: string, callBack: () => void) => {
     if (eventName === 'accountChanged') {
-      return this.bitcoinNetworkProvider?.off('accountsChanged', callBack)
+      return this.bitcoinNetworkProvider?.off?.('accountsChanged', callBack)
     }
-    return this.bitcoinNetworkProvider?.off(eventName, callBack)
+    return this.bitcoinNetworkProvider?.off?.(eventName, callBack)
   }
 }

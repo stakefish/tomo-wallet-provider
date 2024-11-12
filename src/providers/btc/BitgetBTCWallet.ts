@@ -41,14 +41,11 @@ export class BitgetBTCWallet extends BTCProvider {
     return this
   }
 
-  getWalletProviderName = async (): Promise<string> => {
-    return 'Bitget Wallet'
-  }
-
   signPsbt = async (psbtHex: string): Promise<string> => {
     const data = {
       method: 'signPsbt',
       params: {
+        // @ts-ignore
         from: this.bitcoinNetworkProvider.selectedAddress,
         __internalFunc: '__signPsbt_babylon',
         psbtHex,
@@ -57,7 +54,7 @@ export class BitgetBTCWallet extends BTCProvider {
         }
       }
     }
-
+    // @ts-ignore
     const signedPsbt = await this.bitcoinNetworkProvider.request(
       'dappsSign',
       data
@@ -86,6 +83,7 @@ export class BitgetBTCWallet extends BTCProvider {
     const data = {
       method: 'signPsbt',
       params: {
+        // @ts-ignore
         from: this.bitcoinNetworkProvider.selectedAddress,
         __internalFunc: '__signPsbts_babylon',
         psbtHex: '_',
@@ -95,6 +93,7 @@ export class BitgetBTCWallet extends BTCProvider {
     }
 
     try {
+      // @ts-ignore
       let signedPsbts = await this.bitcoinNetworkProvider.request(
         'dappsSign',
         data
@@ -119,7 +118,7 @@ export class BitgetBTCWallet extends BTCProvider {
 
   async switchNetwork(network: Network) {
     return await this.bitcoinNetworkProvider.switchNetwork(
-      INTERNAL_NETWORK_NAMES[network]
+      INTERNAL_NETWORK_NAMES[network] as Network
     )
   }
 
@@ -127,6 +126,7 @@ export class BitgetBTCWallet extends BTCProvider {
     cursor?: number,
     size?: number
   ): Promise<InscriptionResult> {
-    return await this.bitcoinNetworkProvider.getInscriptions(cursor, size)
+    // @ts-ignore
+    return await this.bitcoinNetworkProvider?.getInscriptions?.(cursor, size)
   }
 }

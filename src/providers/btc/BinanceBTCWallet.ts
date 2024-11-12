@@ -28,32 +28,31 @@ export class BinanceBTCWallet extends BTCProvider {
     return this
   }
 
-  getWalletProviderName = async (): Promise<string> => {
-    return this.bitcoinNetworkProvider.name
-  }
-
   signPsbts = async (psbtsHexes: string[]): Promise<string[]> => {
     throw new Error('Method "signPsbts" not implemented.')
   }
 
   on = (eventName: string, callBack: () => void) => {
     if (eventName === 'accountChanged') {
-      return this.bitcoinNetworkProvider?.on('accountsChanged', callBack)
+      return this.bitcoinNetworkProvider?.on?.('accountsChanged', callBack)
     }
-    return this.bitcoinNetworkProvider?.on(eventName, callBack)
+    return this.bitcoinNetworkProvider?.on?.(eventName, callBack)
   }
 
   off = (eventName: string, callBack: () => void) => {
     if (eventName === 'accountChanged') {
+      // @ts-ignore
       return this.bitcoinNetworkProvider?.removeListener(
         'accountsChanged',
         callBack
       )
     }
+    // @ts-ignore
     return this.bitcoinNetworkProvider?.removeListener(eventName, callBack)
   }
 
   getBalance = async (): Promise<number> => {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.getBalance(await this.getAddress())
   }
 
@@ -122,6 +121,7 @@ export class BinanceBTCWallet extends BTCProvider {
 
   async switchNetwork(network: Network): Promise<void> {
     await this.bitcoinNetworkProvider.switchNetwork(
+      // @ts-ignore
       network.replace('mainnet', 'livenet')
     )
   }

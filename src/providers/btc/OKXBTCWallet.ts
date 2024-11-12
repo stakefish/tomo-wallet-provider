@@ -38,6 +38,7 @@ export class OKXBTCWallet extends BTCProvider {
     let result = null
     try {
       // this will not throw an error even if user has no network enabled
+      // @ts-ignore
       result = await this.bitcoinNetworkProvider.connect()
     } catch (error) {
       throw new Error(`BTC ${this.networkEnv} is not enabled in OKX Wallet`)
@@ -45,6 +46,7 @@ export class OKXBTCWallet extends BTCProvider {
 
     const { address, compressedPublicKey } = result
 
+    // @ts-ignore
     validateAddress(this.networkEnv, address)
 
     if (compressedPublicKey && address) {
@@ -58,11 +60,8 @@ export class OKXBTCWallet extends BTCProvider {
     }
   }
 
-  getWalletProviderName = async (): Promise<string> => {
-    return 'OKX'
-  }
-
   getAddress = async (): Promise<string> => {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.getSelectedAddress()
   }
 
@@ -96,6 +95,7 @@ export class OKXBTCWallet extends BTCProvider {
   async sendBitcoin(to: string, satAmount: number) {
     const result = await this.bitcoinNetworkProvider.sendBitcoin(
       to,
+      // @ts-ignore
       parseUnits(satAmount.toString(), 8).toString()
     )
     return result
@@ -109,16 +109,19 @@ export class OKXBTCWallet extends BTCProvider {
   }
 
   getBalance = async (): Promise<number> => {
+    // @ts-ignore
     return (await this.bitcoinNetworkProvider.getBalance()).total
   }
 
   pushTx = async (txHex: string): Promise<string> => {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.pushTx(txHex)
   }
   async getInscriptions(
     cursor?: number,
     size?: number
   ): Promise<InscriptionResult> {
+    // @ts-ignore
     return await this.bitcoinNetworkProvider.getInscriptions(cursor, size)
   }
 }

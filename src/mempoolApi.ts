@@ -20,7 +20,7 @@ export function setBtcServiceApiUrl(url: string | undefined) {
   serviceUrl = url
 }
 
-const getBaseUrl = (network: Network) => {
+export const getBaseUrl = (network: Network) => {
   if (baseUrl) {
     return baseUrl + '/'
   }

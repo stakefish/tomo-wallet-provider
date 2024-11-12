@@ -3,34 +3,6 @@ import { networks } from 'bitcoinjs-lib'
 
 export const network = Network.MAINNET
 
-interface NetworkConfig {
-  coinName: string
-  coinSymbol: string
-  networkName: string
-  network: Network
-}
-
-const mainnetConfig: NetworkConfig = {
-  coinName: 'BTC',
-  coinSymbol: 'BTC',
-  networkName: 'BTC',
-  network: Network.MAINNET
-}
-
-const signetConfig: NetworkConfig = {
-  coinName: 'Signet BTC',
-  coinSymbol: 'sBTC',
-  networkName: 'BTC signet',
-  network: Network.SIGNET
-}
-
-const testnetConfig: NetworkConfig = {
-  coinName: 'Testnet BTC',
-  coinSymbol: 'tBTC',
-  networkName: 'BTC testnet',
-  network: Network.TESTNET
-}
-
 export const toNetwork = (network: Network): networks.Network => {
   switch (network) {
     case Network.MAINNET:

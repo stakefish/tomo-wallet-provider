@@ -51,7 +51,10 @@ export type TomoBitcoinInjected = {
 
 export abstract class BTCProvider extends WalletProvider {
   bitcoinNetworkProvider: TomoBitcoinInjected
-  constructor(chains: TomoChainBTC[], bitcoinNetworkProvider: any) {
+  constructor(
+    chains: TomoChainBTC[],
+    bitcoinNetworkProvider: TomoBitcoinInjected
+  ) {
     super(chains)
     this.bitcoinNetworkProvider = bitcoinNetworkProvider
     initBTCEccLib()
@@ -157,6 +160,7 @@ export abstract class BTCProvider extends WalletProvider {
   ): Promise<InscriptionResult> {
     return await getInscriptions({
       address: await this.getAddress(),
+      // @ts-ignore
       networkType: (await this.getNetwork()).toUpperCase(),
       cursor: cursor,
       size: size
