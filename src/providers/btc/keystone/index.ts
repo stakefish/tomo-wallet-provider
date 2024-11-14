@@ -35,6 +35,11 @@ type KeystoneWalletInfo = {
   scriptPubKeyHex: string | undefined
 }
 
+// @ts-expect-error fix build undefined
+const curSdk = sdk.default ? sdk.default : sdk
+// @ts-expect-error fix build undefined
+const curKeystoneSDK = KeystoneSDK?.default ? KeystoneSDK.default : KeystoneSDK
+
 export class KeystoneWallet extends BTCProvider {
   private keystoneWaleltInfo: KeystoneWalletInfo
   private viewSdk: typeof sdk
@@ -45,9 +50,11 @@ export class KeystoneWallet extends BTCProvider {
     // @ts-ignore
     super(chains, {})
     initBTCEccLib()
-    sdk.bootstrap()
-    this.viewSdk = sdk
-    this.dataSdk = new KeystoneSDK({
+
+    curSdk.bootstrap()
+
+    this.viewSdk = curSdk
+    this.dataSdk = new curKeystoneSDK({
       origin: ''
     })
     this.networkEnv = Network.MAINNET
