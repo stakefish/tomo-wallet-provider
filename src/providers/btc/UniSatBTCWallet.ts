@@ -47,6 +47,13 @@ export class UniSatBTCWallet extends BTCProvider {
     )
   }
 
+  async getNetwork(): Promise<Network> {
+    const result = (await this.bitcoinNetworkProvider.getNetwork())
+      .replace('livenet', 'mainnet')
+      .replace('unknown', 'signet') as Network
+    return result
+  }
+
   async sendBitcoin(to: string, satAmount: number) {
     const result = await this.bitcoinNetworkProvider.sendBitcoin(
       to,
