@@ -1,4 +1,14 @@
 import { Keplr } from '@keplr-wallet/types'
+import { KeplrSignOptions, Key } from '@keplr-wallet/types/src/wallet/keplr'
+import {
+  AminoSignResponse,
+  BroadcastMode,
+  OfflineAminoSigner,
+  OfflineDirectSigner,
+  StdSignature,
+  StdSignDoc
+} from '@keplr-wallet/types/src/cosmjs'
+import { ChainInfo } from '@keplr-wallet/types/src/chain-info'
 
 export type Fees = {
   // fee for inclusion in the next block
@@ -75,7 +85,32 @@ export type TomoChainCosmos = TomoChain & {
   }
 }
 
-export type TomoCosmosInjected = Keplr
+// export type TomoCosmosInjected = Keplr
+export type TomoCosmosInjected = {
+  enable(chainIds: string | string[]): Promise<void>
+  getOfflineSigner(
+    chainId: string,
+    signOptions?: KeplrSignOptions
+  ): OfflineAminoSigner & OfflineDirectSigner
+  getKey(chainId: string): Promise<Key>
+  signAmino(
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions?: KeplrSignOptions
+  ): Promise<AminoSignResponse>
+  signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature>
+  sendTx(
+    chainId: string,
+    tx: Uint8Array,
+    mode: BroadcastMode
+  ): Promise<Uint8Array>
+  experimentalSuggestChain?(chainInfo: ChainInfo): Promise<void>
+}
 
 /**
  * Abstract class representing a wallet provider.

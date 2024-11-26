@@ -16,6 +16,7 @@ import {
 } from '@keplr-wallet/types/src/cosmjs'
 import { SigningStargateClient } from '@cosmjs/stargate'
 import { SigningStargateClientOptions } from '@cosmjs/stargate/build/signingstargateclient'
+import { DeliverTxResponse } from '@cosmjs/stargate/build/stargateclient'
 
 const DEFAULT_RPC = 'https://cosmoshub.validator.network:443'
 
@@ -119,8 +120,16 @@ export class CosmosProvider extends WalletProvider {
     return await this.provider.signArbitrary(chainId, signer, data)
   }
 
-  async sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array> {
-    const chainId = await this.getNetwork()
-    return this.provider.sendTx(chainId, tx, mode)
+  async broadcastTx(
+    tx: Uint8Array,
+    timeoutMs?: number,
+    pollIntervalMs?: number
+  ): Promise<DeliverTxResponse> {
+    const signingStargateClient = await this.getSigningStargateClient()
+    return await signingStargateClient.broadcastTx(
+      tx,
+      timeoutMs,
+      pollIntervalMs
+    )
   }
 }
