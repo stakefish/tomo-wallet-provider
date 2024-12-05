@@ -285,7 +285,6 @@ export class KeystoneWallet extends BTCProvider {
   }
 
   async sendBitcoin(to: string, satAmount: number) {
-    satAmount = Number(parseUnits(satAmount.toString(), 8).toString())
     const walletAddress = await this.getAddress()
     const utxos = await this.getUtxos(walletAddress)
     utxos.sort((a, b) => a.value - b.value)

@@ -8,7 +8,6 @@ import {
   setBtcApiUrl,
   setBtcServiceApiUrl
 } from '../../mempoolApi'
-import { parseUnits } from '../../utils/parseUnits'
 import {
   Fees,
   InscriptionResult,
@@ -145,7 +144,7 @@ export abstract class BTCProvider extends WalletProvider {
   async sendBitcoin(to: string, satAmount: number): Promise<string> {
     const result = await this.bitcoinNetworkProvider.sendBitcoin(
       to,
-      Number(parseUnits(satAmount.toString(), 8))
+      Number(satAmount)
     )
     return result
   }

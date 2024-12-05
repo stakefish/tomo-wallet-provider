@@ -46,9 +46,6 @@ export class OKXBTCWallet extends BTCProvider {
 
     const { address, compressedPublicKey } = result
 
-    // @ts-ignore
-    validateAddress(this.networkEnv, address)
-
     if (compressedPublicKey && address) {
       this.okxWalletInfo = {
         publicKeyHex: compressedPublicKey,
@@ -96,7 +93,7 @@ export class OKXBTCWallet extends BTCProvider {
     const result = await this.bitcoinNetworkProvider.sendBitcoin(
       to,
       // @ts-ignore
-      parseUnits(satAmount.toString(), 8).toString()
+      BigInt(satAmount)
     )
     return result
   }

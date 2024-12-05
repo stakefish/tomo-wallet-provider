@@ -55,10 +55,7 @@ export class UniSatBTCWallet extends BTCProvider {
   }
 
   async sendBitcoin(to: string, satAmount: number) {
-    const result = await this.bitcoinNetworkProvider.sendBitcoin(
-      to,
-      Number(parseUnits(satAmount.toString(), 8))
-    )
+    const result = await this.bitcoinNetworkProvider.sendBitcoin(to, satAmount)
     return result
   }
 
@@ -66,7 +63,7 @@ export class UniSatBTCWallet extends BTCProvider {
     // @ts-ignore
     const result = await this.bitcoinNetworkProvider.getBalance()
     // @ts-ignore
-    return result.total
+    return result.confirmed
   }
 
   pushTx = async (txHex: string): Promise<string> => {

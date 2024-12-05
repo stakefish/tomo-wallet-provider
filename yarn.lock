@@ -1082,10 +1082,10 @@
     events "^3.3.0"
     long "^5.2.3"
 
-"@tomo-inc/wallet-connect-sdk@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.npmmirror.com/@tomo-inc/wallet-connect-sdk/-/wallet-connect-sdk-0.3.3.tgz#a8466f40a6c10f55e910bb28e89b134944c41a40"
-  integrity sha512-dtfmwL3Rko73WqwbY8cyP793m4Lq/zssPEy0OOSuVl2y6ABvoQRw2Zh+9DhET6U9wt7NP/OYuYYm7F3rwST1fg==
+"@tomo-inc/wallet-connect-sdk@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.npmmirror.com/@tomo-inc/wallet-connect-sdk/-/wallet-connect-sdk-0.3.4.tgz#c9c19f03391e5815ae3c76de554caf39e8b32a93"
+  integrity sha512-eboRtgZeo6D0FYmIVidQ4GpmcPY3erqf+qkel7Pq9wQWM5FqSvJ8wT3cTxjTZSzjfBiz1QpNXc+8YThG6jW/rA==
   dependencies:
     "@tomo-inc/tomo-wallet-provider" "^1.0.25"
     animate.css "^4.1.1"

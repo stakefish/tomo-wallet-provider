@@ -1,6 +1,5 @@
-import { Network, TomoChain, WalletProvider } from '../../WalletProvider'
+import { Network, TomoChain } from '../../WalletProvider'
 import { Psbt } from 'bitcoinjs-lib'
-import { parseUnits } from '../../utils/parseUnits'
 import { toNetwork } from '../../config/network.config'
 import { initBTCEccLib } from '../../utils/eccLibUtils'
 import { BTCProvider } from './BTCProvider'
@@ -57,7 +56,6 @@ export class BinanceBTCWallet extends BTCProvider {
   }
 
   async sendBitcoin(to: string, satAmount: number) {
-    satAmount = Number(parseUnits(satAmount.toString(), 8).toString())
     const walletAddress = await this.getAddress()
     const utxos = await this.getUtxos(walletAddress)
     utxos.sort((a, b) => a.value - b.value)

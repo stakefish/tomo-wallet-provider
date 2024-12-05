@@ -57,8 +57,8 @@ export function ChildComponent(props: ChildProps) {
   const tomoWalletConnect = useTomoWalletConnect()
   const walletList = useWalletList()
 
-  const cosmosIsConnect = tomoWalletState.cosmos.connected
-  const btcIsConnect = tomoWalletState.bitcoin.connected
+  const cosmosIsConnect = tomoWalletState.cosmos?.connected
+  const btcIsConnect = tomoWalletState.bitcoin?.connected
 
   const [cosmosAddress, setCosmosAddress] = useState('')
   const [curChainType, setCurChainType] = useState<ChainType>('bitcoin')
