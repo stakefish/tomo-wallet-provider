@@ -1,12 +1,13 @@
 import { CosmosProvider } from './CosmosProvider'
+import { getWindow, ProviderOption } from '../../WalletProvider'
 
 export class CosmostationCosmosWallet extends CosmosProvider {
-  constructor(chains: any[]) {
+  constructor(option: ProviderOption) {
     // @ts-ignore
-    const provider = window.cosmostation?.providers?.keplr
+    const provider = getWindow(option).cosmostation?.providers?.keplr
     if (!provider) {
       throw new Error('Cosmostation Wallet extension not found')
     }
-    super(chains, provider)
+    super(option, provider)
   }
 }

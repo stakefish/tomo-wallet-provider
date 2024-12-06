@@ -12,7 +12,7 @@ import {
   Fees,
   InscriptionResult,
   Network,
-  TomoChainBTC,
+  ProviderOption,
   UTXO,
   WalletProvider
 } from '../../WalletProvider'
@@ -51,14 +51,14 @@ export type TomoBitcoinInjected = {
 export abstract class BTCProvider extends WalletProvider {
   bitcoinNetworkProvider: TomoBitcoinInjected
   constructor(
-    chains: TomoChainBTC[],
+    option: ProviderOption,
     bitcoinNetworkProvider: TomoBitcoinInjected
   ) {
-    super(chains)
+    super(option)
     this.bitcoinNetworkProvider = bitcoinNetworkProvider
     initBTCEccLib()
-    setBtcApiUrl(chains?.[0]?.backendUrls?.mempoolUrl)
-    setBtcServiceApiUrl(chains?.[0]?.backendUrls?.inscriptionUrl)
+    setBtcApiUrl(this.chains?.[0]?.backendUrls?.mempoolUrl)
+    setBtcServiceApiUrl(this.chains?.[0]?.backendUrls?.inscriptionUrl)
   }
   /**
    * Gets the address of the connected wallet.

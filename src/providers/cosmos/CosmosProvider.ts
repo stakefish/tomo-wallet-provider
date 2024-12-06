@@ -1,11 +1,10 @@
 import {
-  TomoChainCosmos,
+  ProviderOption,
   TomoCosmosInjected,
   WalletProvider
 } from '../../WalletProvider'
 import {
   AminoSignResponse,
-  BroadcastMode,
   KeplrSignOptions,
   StdSignature,
   StdSignDoc
@@ -24,8 +23,8 @@ export class CosmosProvider extends WalletProvider {
   provider: TomoCosmosInjected
   offlineSigner?: OfflineAminoSigner & OfflineDirectSigner
   clientPromise?: Promise<SigningStargateClient>
-  constructor(chains: TomoChainCosmos[], provider: TomoCosmosInjected) {
-    super(chains)
+  constructor(option: ProviderOption, provider: TomoCosmosInjected) {
+    super(option)
     this.provider = provider
   }
 
@@ -35,6 +34,10 @@ export class CosmosProvider extends WalletProvider {
     this.offlineSigner = this.provider.getOfflineSigner(curChainId)
     await this.getAddress()
     return this
+  }
+
+  initSigningStargateClient(client: SigningStargateClient) {
+    this.clientPromise = Promise.resolve(client)
   }
 
   /**

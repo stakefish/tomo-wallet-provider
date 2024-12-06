@@ -1,11 +1,10 @@
-import { validateAddress } from '../../config/network.config'
 import {
+  getWindow,
   InscriptionResult,
   Network,
-  TomoChain,
+  ProviderOption,
   WalletInfo
 } from '../../WalletProvider'
-import { parseUnits } from '../../utils/parseUnits'
 import { BTCProvider } from './BTCProvider'
 
 export class OKXBTCWallet extends BTCProvider {
@@ -13,15 +12,15 @@ export class OKXBTCWallet extends BTCProvider {
   private okxWallet: any
   private networkEnv: Network | undefined = Network.MAINNET
 
-  constructor(chains: TomoChain[]) {
+  constructor(option: ProviderOption) {
     // @ts-ignore
-    const okxWallet = window.okxwallet
+    const okxWallet = getWindow(option).okxwallet
     const bitcoinNetworkProvider = okxWallet?.bitcoin
     // check whether there is an OKX Wallet extension
     if (!bitcoinNetworkProvider) {
       throw new Error('OKX Wallet extension not found')
     }
-    super(chains, bitcoinNetworkProvider)
+    super(option, bitcoinNetworkProvider)
     this.okxWallet = okxWallet
   }
 

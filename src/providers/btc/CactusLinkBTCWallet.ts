@@ -1,14 +1,14 @@
-import { TomoChain } from '../../WalletProvider'
+import { getWindow, ProviderOption } from '../../WalletProvider'
 import { BTCProvider } from './BTCProvider'
 
 export class CactusLinkBTCWallet extends BTCProvider {
-  constructor(chains: TomoChain[]) {
+  constructor(option: ProviderOption) {
     // @ts-ignore
-    const bitcoinNetworkProvider = window.cactuslink
+    const bitcoinNetworkProvider = getWindow(option).cactuslink
     if (!bitcoinNetworkProvider) {
       throw new Error('Cactus Link Wallet extension not found')
     }
-    super(chains, bitcoinNetworkProvider)
+    super(option, bitcoinNetworkProvider)
   }
 
   async connectWallet(): Promise<this> {

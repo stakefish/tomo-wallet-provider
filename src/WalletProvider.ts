@@ -112,6 +112,11 @@ export type TomoCosmosInjected = {
   experimentalSuggestChain?(chainInfo: ChainInfo): Promise<void>
 }
 
+export type ProviderOption = {
+  getWindow?: () => Window
+  chains: TomoChain[]
+}
+
 /**
  * Abstract class representing a wallet provider.
  * Provides methods for connecting to a wallet, retrieving wallet information, signing transactions, and more.
@@ -119,8 +124,10 @@ export type TomoCosmosInjected = {
 
 export abstract class WalletProvider {
   chains: TomoChain[]
-  constructor(chains: TomoChain[]) {
-    this.chains = chains
+  option: ProviderOption
+  constructor(option: ProviderOption) {
+    this.chains = option.chains
+    this.option = option
   }
   /**
    * Connects to the wallet and returns the instance of the wallet provider.
@@ -141,4 +148,8 @@ export abstract class WalletProvider {
    * @returns A promise that resolves to the network of the current account.
    */
   abstract getNetwork(): Promise<string>
+}
+
+export function getWindow(option: ProviderOption | undefined): Window {
+  return option?.getWindow ? option.getWindow() : window
 }

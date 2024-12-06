@@ -1,26 +1,22 @@
 import {
+  getWindow,
   InscriptionResult,
   Network,
-  TomoChain,
-  WalletInfo,
-  WalletProvider
+  ProviderOption
 } from '../../WalletProvider'
-import { parseUnits } from '../../utils/parseUnits'
 import { BTCProvider } from './BTCProvider'
 
 export const unisatProvider = 'unisat'
 
 export class UniSatBTCWallet extends BTCProvider {
-  private unisatWalletInfo: WalletInfo | undefined
-
-  constructor(chains: TomoChain[]) {
+  constructor(option: ProviderOption) {
     // @ts-ignore
-    const bitcoinNetworkProvider = window[unisatProvider]
+    const bitcoinNetworkProvider = getWindow(option)[unisatProvider]
     // check whether there is an OKX Wallet extension
     if (!bitcoinNetworkProvider) {
       throw new Error('UniSat Wallet extension not found')
     }
-    super(chains, bitcoinNetworkProvider)
+    super(option, bitcoinNetworkProvider)
   }
 
   connectWallet = async (): Promise<this> => {
@@ -28,12 +24,8 @@ export class UniSatBTCWallet extends BTCProvider {
     try {
       const accounts = await unisatwallet.requestAccounts()
       const compressedPublicKey = await unisatwallet.getPublicKey()
-      if (compressedPublicKey && accounts[0]) {
-        this.unisatWalletInfo = {
-          publicKeyHex: compressedPublicKey,
-          address: accounts[0]
-        }
-        return this
+      if (!accounts || !compressedPublicKey) {
+        throw new Error('Could not connect to unisat wallet')
       }
       return this
     } catch (error) {
