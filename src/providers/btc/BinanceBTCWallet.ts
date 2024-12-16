@@ -125,11 +125,11 @@ export class BinanceBTCWallet extends BTCProvider {
       network.replace('mainnet', 'livenet')
     )
   }
-  getWalletProviderName(): string {
-    return binanceBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(binanceBTCWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return binanceBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(binanceBTCWalletOption.img)
   }
 }
 

@@ -12,11 +12,11 @@ export class OneKeyCosmosWallet extends CosmosProvider {
     }
     super(option, provider)
   }
-  getWalletProviderName(): string {
-    return oneKeyCosmosWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(oneKeyCosmosWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return oneKeyCosmosWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(oneKeyCosmosWalletOption.img)
   }
 }
 

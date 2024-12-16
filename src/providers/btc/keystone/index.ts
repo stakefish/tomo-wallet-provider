@@ -346,11 +346,11 @@ export class KeystoneWallet extends BTCProvider {
     const txId = await this.pushTx(pushData.toHex())
     return txId
   }
-  getWalletProviderName(): string {
-    return keystoneBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(keystoneBTCWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return keystoneBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(keystoneBTCWalletOption.img)
   }
 }
 

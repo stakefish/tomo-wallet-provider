@@ -48,11 +48,11 @@ export class OneKeyBTCWallet extends BTCProvider {
       INTERNAL_NETWORK_NAMES[network] as Network
     )
   }
-  getWalletProviderName(): string {
-    return oneKeyBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(oneKeyBTCWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return oneKeyBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(oneKeyBTCWalletOption.img)
   }
 }
 

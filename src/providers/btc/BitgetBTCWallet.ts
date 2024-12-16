@@ -138,11 +138,11 @@ export class BitgetBTCWallet extends BTCProvider {
     return await this.bitcoinNetworkProvider?.getInscriptions?.(cursor, size)
   }
 
-  getWalletProviderName(): string {
-    return bitgetBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(bitgetBTCWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return bitgetBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(bitgetBTCWalletOption.img)
   }
 }
 

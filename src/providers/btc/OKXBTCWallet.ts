@@ -123,12 +123,12 @@ export class OKXBTCWallet extends BTCProvider {
     return await this.bitcoinNetworkProvider.getInscriptions(cursor, size)
   }
 
-  getWalletProviderIcon(): string {
-    return okxBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(okxBTCWalletOption.img)
   }
 
-  getWalletProviderName(): string {
-    return okxBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(okxBTCWalletOption.name)
   }
 }
 

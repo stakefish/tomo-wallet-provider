@@ -71,11 +71,11 @@ export class UniSatBTCWallet extends BTCProvider {
     return await this.bitcoinNetworkProvider.getInscriptions(cursor, size)
   }
 
-  getWalletProviderName(): string {
-    return uniSatBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(uniSatBTCWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return uniSatBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(uniSatBTCWalletOption.img)
   }
 }
 

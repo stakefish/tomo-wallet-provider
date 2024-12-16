@@ -58,11 +58,11 @@ export class TomoBTCWallet extends BTCProvider {
     return await this.bitcoinNetworkProvider.pushTx(txHex)
   }
 
-  getWalletProviderName(): string {
-    return tomoBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(tomoBTCWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return tomoBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(tomoBTCWalletOption.img)
   }
 }
 

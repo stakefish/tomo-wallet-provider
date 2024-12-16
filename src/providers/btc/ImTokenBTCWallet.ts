@@ -197,11 +197,11 @@ export class ImTokenBTCWallet extends BTCProvider {
   async switchNetwork(network: Network): Promise<void> {
     throw new Error('Method not implemented.')
   }
-  getWalletProviderName(): string {
-    return imTokenBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(imTokenBTCWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return imTokenBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(imTokenBTCWalletOption.img)
   }
 }
 

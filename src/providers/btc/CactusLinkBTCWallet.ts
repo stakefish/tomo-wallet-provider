@@ -65,11 +65,11 @@ export class CactusLinkBTCWallet extends BTCProvider {
     return this.bitcoinNetworkProvider?.off?.(eventName, callBack)
   }
 
-  getWalletProviderName(): string {
-    return cactusLinkBTCWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(cactusLinkBTCWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return cactusLinkBTCWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(cactusLinkBTCWalletOption.img)
   }
 }
 

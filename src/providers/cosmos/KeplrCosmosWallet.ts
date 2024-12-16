@@ -14,11 +14,11 @@ export class KeplrCosmosWallet extends CosmosProvider {
     }
     super(option, provider)
   }
-  getWalletProviderName(): string {
-    return keplrCosmosWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(keplrCosmosWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return keplrCosmosWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(keplrCosmosWalletOption.img)
   }
 }
 

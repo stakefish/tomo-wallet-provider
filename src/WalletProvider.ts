@@ -153,13 +153,13 @@ export abstract class WalletProvider {
    * Gets the name of the wallet provider.
    * @returns Name of the wallet provider.
    */
-  abstract getWalletProviderName(): string
+  abstract getWalletProviderName(): Promise<string>
 
   /**
    * Gets the icon URL of the wallet provider.
    * @returns Icon URL of the wallet provider.
    */
-  abstract getWalletProviderIcon(): string
+  abstract getWalletProviderIcon(): Promise<string>
 }
 
 export function getWindow(option: ProviderOption | undefined): Window {

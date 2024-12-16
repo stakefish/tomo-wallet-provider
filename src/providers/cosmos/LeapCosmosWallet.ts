@@ -12,11 +12,11 @@ export class LeapCosmosWallet extends CosmosProvider {
     }
     super(option, provider)
   }
-  getWalletProviderName(): string {
-    return leapCosmosWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(leapCosmosWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return leapCosmosWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(leapCosmosWalletOption.img)
   }
 }
 

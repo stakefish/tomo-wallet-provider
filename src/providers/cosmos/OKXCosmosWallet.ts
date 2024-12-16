@@ -12,11 +12,11 @@ export class OKXCosmosWallet extends CosmosProvider {
     }
     super(option, provider)
   }
-  getWalletProviderName(): string {
-    return okxCosmosWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(okxCosmosWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return okxCosmosWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(okxCosmosWalletOption.img)
   }
 }
 

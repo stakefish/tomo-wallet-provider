@@ -12,11 +12,11 @@ export class StationCosmosWallet extends CosmosProvider {
     }
     super(option, provider)
   }
-  getWalletProviderName(): string {
-    return stationCosmosWalletOption.name
+  getWalletProviderName(): Promise<string> {
+    return Promise.resolve(stationCosmosWalletOption.name)
   }
-  getWalletProviderIcon(): string {
-    return stationCosmosWalletOption.img
+  getWalletProviderIcon(): Promise<string> {
+    return Promise.resolve(stationCosmosWalletOption.img)
   }
 }
 
