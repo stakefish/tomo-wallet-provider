@@ -1,5 +1,7 @@
 import { getWindow, Network, ProviderOption } from '../../WalletProvider'
 import { BTCProvider } from './BTCProvider'
+import onekeyIcon from '../../icons/onekey.svg'
+import { TomoWallet } from '../../types'
 
 export const oneKeyProvider = '$onekey'
 
@@ -46,4 +48,19 @@ export class OneKeyBTCWallet extends BTCProvider {
       INTERNAL_NETWORK_NAMES[network] as Network
     )
   }
+  getWalletProviderName(): string {
+    return oneKeyBTCWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return oneKeyBTCWalletOption.img
+  }
 }
+
+export const oneKeyBTCWalletOption = {
+  id: 'bitcoin_onekey',
+  img: onekeyIcon,
+  name: 'OneKey',
+  chainType: 'bitcoin',
+  connectProvider: OneKeyBTCWallet,
+  type: 'extension'
+} as TomoWallet

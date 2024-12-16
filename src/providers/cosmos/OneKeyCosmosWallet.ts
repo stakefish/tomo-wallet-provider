@@ -1,5 +1,7 @@
 import { CosmosProvider } from './CosmosProvider'
 import { getWindow, ProviderOption } from '../../WalletProvider'
+import { TomoWallet } from '../../types'
+import onekeyIcon from '../../icons/onekey.svg'
 
 export class OneKeyCosmosWallet extends CosmosProvider {
   constructor(option: ProviderOption) {
@@ -10,4 +12,19 @@ export class OneKeyCosmosWallet extends CosmosProvider {
     }
     super(option, provider)
   }
+  getWalletProviderName(): string {
+    return oneKeyCosmosWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return oneKeyCosmosWalletOption.img
+  }
 }
+
+export const oneKeyCosmosWalletOption = {
+  id: 'cosmos_onekey',
+  img: onekeyIcon,
+  name: 'OneKey',
+  chainType: 'cosmos',
+  connectProvider: OneKeyCosmosWallet,
+  type: 'extension'
+} as TomoWallet

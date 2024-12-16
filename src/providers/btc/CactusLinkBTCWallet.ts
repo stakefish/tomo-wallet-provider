@@ -1,5 +1,7 @@
 import { getWindow, ProviderOption } from '../../WalletProvider'
 import { BTCProvider } from './BTCProvider'
+import { TomoWallet } from '../../types'
+import cactuslinkIcon from '../../icons/cactuslink.svg'
 
 export class CactusLinkBTCWallet extends BTCProvider {
   constructor(option: ProviderOption) {
@@ -62,4 +64,20 @@ export class CactusLinkBTCWallet extends BTCProvider {
     }
     return this.bitcoinNetworkProvider?.off?.(eventName, callBack)
   }
+
+  getWalletProviderName(): string {
+    return cactusLinkBTCWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return cactusLinkBTCWalletOption.img
+  }
 }
+
+export const cactusLinkBTCWalletOption = {
+  id: 'bitcoin_cactuslink',
+  img: cactuslinkIcon,
+  name: 'Cactus Link',
+  chainType: 'bitcoin',
+  connectProvider: CactusLinkBTCWallet,
+  type: 'extension'
+} as TomoWallet

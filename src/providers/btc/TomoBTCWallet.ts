@@ -1,5 +1,7 @@
 import { BTCProvider } from './BTCProvider'
 import { getWindow, ProviderOption } from '../../WalletProvider'
+import tomoIcon from '../../icons/tomo.png'
+import { TomoWallet } from '../../types'
 
 export const tomoProvider = 'tomo_btc'
 
@@ -55,4 +57,20 @@ export class TomoBTCWallet extends BTCProvider {
     // @ts-ignore
     return await this.bitcoinNetworkProvider.pushTx(txHex)
   }
+
+  getWalletProviderName(): string {
+    return tomoBTCWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return tomoBTCWalletOption.img
+  }
 }
+
+export const tomoBTCWalletOption = {
+  id: 'bitcoin_tomo',
+  img: tomoIcon,
+  name: 'Tomo',
+  chainType: 'bitcoin',
+  connectProvider: TomoBTCWallet,
+  type: 'extension'
+} as TomoWallet

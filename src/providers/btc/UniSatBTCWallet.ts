@@ -5,6 +5,8 @@ import {
   ProviderOption
 } from '../../WalletProvider'
 import { BTCProvider } from './BTCProvider'
+import unisatIcon from '../../icons/unisat_wallet.svg'
+import { TomoWallet } from '../../types'
 
 export const unisatProvider = 'unisat'
 
@@ -12,7 +14,6 @@ export class UniSatBTCWallet extends BTCProvider {
   constructor(option: ProviderOption) {
     // @ts-ignore
     const bitcoinNetworkProvider = getWindow(option)[unisatProvider]
-    // check whether there is an OKX Wallet extension
     if (!bitcoinNetworkProvider) {
       throw new Error('UniSat Wallet extension not found')
     }
@@ -69,4 +70,20 @@ export class UniSatBTCWallet extends BTCProvider {
     // @ts-ignore
     return await this.bitcoinNetworkProvider.getInscriptions(cursor, size)
   }
+
+  getWalletProviderName(): string {
+    return uniSatBTCWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return uniSatBTCWalletOption.img
+  }
 }
+
+export const uniSatBTCWalletOption = {
+  id: 'bitcoin_unisat',
+  img: unisatIcon,
+  name: 'Unisat',
+  chainType: 'bitcoin',
+  connectProvider: UniSatBTCWallet,
+  type: 'extension'
+} as TomoWallet

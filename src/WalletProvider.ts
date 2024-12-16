@@ -148,6 +148,18 @@ export abstract class WalletProvider {
    * @returns A promise that resolves to the network of the current account.
    */
   abstract getNetwork(): Promise<string>
+
+  /**
+   * Gets the name of the wallet provider.
+   * @returns Name of the wallet provider.
+   */
+  abstract getWalletProviderName(): string
+
+  /**
+   * Gets the icon URL of the wallet provider.
+   * @returns Icon URL of the wallet provider.
+   */
+  abstract getWalletProviderIcon(): string
 }
 
 export function getWindow(option: ProviderOption | undefined): Window {

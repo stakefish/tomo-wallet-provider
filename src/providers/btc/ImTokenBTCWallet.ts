@@ -8,6 +8,8 @@ import {
 import { Psbt } from 'bitcoinjs-lib'
 import { toNetwork } from '../../config/network.config'
 import { BTCProvider } from './BTCProvider'
+import { TomoWallet } from '../../types'
+import imtokenIcon from '../../icons/imtoken.svg'
 
 // window object for imToken Wallet
 export const imTokenWalletProvider = 'bitcoin'
@@ -195,4 +197,19 @@ export class ImTokenBTCWallet extends BTCProvider {
   async switchNetwork(network: Network): Promise<void> {
     throw new Error('Method not implemented.')
   }
+  getWalletProviderName(): string {
+    return imTokenBTCWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return imTokenBTCWalletOption.img
+  }
 }
+
+export const imTokenBTCWalletOption = {
+  id: 'bitcoin_imtoken',
+  img: imtokenIcon,
+  name: 'imToken',
+  chainType: 'bitcoin',
+  connectProvider: ImTokenBTCWallet,
+  type: 'injected'
+} as TomoWallet

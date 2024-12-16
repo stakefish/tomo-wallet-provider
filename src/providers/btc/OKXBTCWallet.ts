@@ -6,6 +6,8 @@ import {
   WalletInfo
 } from '../../WalletProvider'
 import { BTCProvider } from './BTCProvider'
+import okxIcon from '../../icons/okx_wallet.svg'
+import { TomoWallet } from '../../types'
 
 export class OKXBTCWallet extends BTCProvider {
   private okxWalletInfo: WalletInfo | undefined
@@ -120,4 +122,21 @@ export class OKXBTCWallet extends BTCProvider {
     // @ts-ignore
     return await this.bitcoinNetworkProvider.getInscriptions(cursor, size)
   }
+
+  getWalletProviderIcon(): string {
+    return okxBTCWalletOption.img
+  }
+
+  getWalletProviderName(): string {
+    return okxBTCWalletOption.name
+  }
 }
+
+export const okxBTCWalletOption = {
+  id: 'bitcoin_okx',
+  img: okxIcon,
+  name: 'OKX',
+  chainType: 'bitcoin',
+  connectProvider: OKXBTCWallet,
+  type: 'extension'
+} as TomoWallet

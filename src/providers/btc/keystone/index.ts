@@ -24,6 +24,8 @@ import BIP322 from './bip322'
 import { toNetwork } from '../../../config/network.config'
 import { initBTCEccLib } from '../../../utils/eccLibUtils'
 import { BTCProvider } from '../BTCProvider'
+import { TomoWallet } from '../../../types'
+import keystoneIcon from '../../../icons/keystone.svg'
 
 type KeystoneWalletInfo = {
   mfp: string | undefined
@@ -344,7 +346,22 @@ export class KeystoneWallet extends BTCProvider {
     const txId = await this.pushTx(pushData.toHex())
     return txId
   }
+  getWalletProviderName(): string {
+    return keystoneBTCWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return keystoneBTCWalletOption.img
+  }
 }
+
+export const keystoneBTCWalletOption = {
+  id: 'bitcoin_keystone',
+  img: keystoneIcon,
+  name: 'Keystone',
+  chainType: 'bitcoin',
+  connectProvider: KeystoneWallet,
+  type: 'qrcode'
+} as TomoWallet
 
 /**
  * High order function to compose the QR generation and scanning process for specific data types.

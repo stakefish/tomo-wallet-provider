@@ -3,6 +3,8 @@ import { Psbt } from 'bitcoinjs-lib'
 import { toNetwork } from '../../config/network.config'
 import { initBTCEccLib } from '../../utils/eccLibUtils'
 import { BTCProvider } from './BTCProvider'
+import { TomoWallet } from '../../types'
+import binanceIcon from '../../icons/binance.webp'
 
 export class BinanceBTCWallet extends BTCProvider {
   constructor(option: ProviderOption) {
@@ -123,4 +125,19 @@ export class BinanceBTCWallet extends BTCProvider {
       network.replace('mainnet', 'livenet')
     )
   }
+  getWalletProviderName(): string {
+    return binanceBTCWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return binanceBTCWalletOption.img
+  }
 }
+
+export const binanceBTCWalletOption = {
+  id: 'bitcoin_binance',
+  img: binanceIcon,
+  name: 'Binance',
+  chainType: 'bitcoin',
+  connectProvider: BinanceBTCWallet,
+  type: 'injected'
+} as TomoWallet

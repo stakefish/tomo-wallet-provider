@@ -1,5 +1,7 @@
 import { CosmosProvider } from './CosmosProvider'
 import { getWindow, ProviderOption } from '../../WalletProvider'
+import { TomoWallet } from '../../types'
+import leapIcon from '../../icons/leap.jpg'
 
 export class LeapCosmosWallet extends CosmosProvider {
   constructor(option: ProviderOption) {
@@ -10,4 +12,19 @@ export class LeapCosmosWallet extends CosmosProvider {
     }
     super(option, provider)
   }
+  getWalletProviderName(): string {
+    return leapCosmosWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return leapCosmosWalletOption.img
+  }
 }
+
+export const leapCosmosWalletOption = {
+  id: 'cosmos_leap',
+  img: leapIcon,
+  name: 'Leap',
+  chainType: 'cosmos',
+  connectProvider: LeapCosmosWallet,
+  type: 'extension'
+} as TomoWallet

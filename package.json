@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "events": "^3.3.0",
-    "long": "^5.2.3"
+    "long": "^5.2.3",
+    "buffer": "^6.0.3"
   },
   "peerDependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
@@ -59,7 +60,6 @@
     "autoprefixer": "^10.4.19",
     "bignumber.js": "^9.1.2",
     "bitcoinjs-lib": "^6.1.5",
-    "buffer": "^6.0.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

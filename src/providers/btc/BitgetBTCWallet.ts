@@ -6,6 +6,8 @@ import {
 } from '../../WalletProvider'
 import { Psbt } from 'bitcoinjs-lib'
 import { BTCProvider } from './BTCProvider'
+import bitgetIcon from '../../icons/bitget-wallet.png'
+import { TomoWallet } from '../../types'
 
 const INTERNAL_NETWORK_NAMES = {
   [Network.MAINNET]: 'livenet',
@@ -135,4 +137,20 @@ export class BitgetBTCWallet extends BTCProvider {
     // @ts-ignore
     return await this.bitcoinNetworkProvider?.getInscriptions?.(cursor, size)
   }
+
+  getWalletProviderName(): string {
+    return bitgetBTCWalletOption.name
+  }
+  getWalletProviderIcon(): string {
+    return bitgetBTCWalletOption.img
+  }
 }
+
+export const bitgetBTCWalletOption = {
+  id: 'bitcoin_bitget',
+  img: bitgetIcon,
+  name: 'Bitget',
+  chainType: 'bitcoin',
+  connectProvider: BitgetBTCWallet,
+  type: 'extension'
+} as TomoWallet
