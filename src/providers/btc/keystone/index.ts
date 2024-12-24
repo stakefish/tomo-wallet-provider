@@ -3,8 +3,7 @@ import sdk, {
   PlayStatus,
   ReadStatus,
   SDK,
-  SupportedResult,
-  viewSdk as keystoneViewSDK
+  SupportedResult
 } from '@keystonehq/sdk'
 import { HDKey } from '@scure/bip32'
 import { PsbtInput } from 'bip174/src/lib/interfaces'
@@ -43,7 +42,7 @@ const curKeystoneSDK = KeystoneSDK?.default ? KeystoneSDK.default : KeystoneSDK
 
 export class KeystoneWallet extends BTCProvider {
   private keystoneWaleltInfo: KeystoneWalletInfo
-  private viewSDK: typeof keystoneViewSDK
+  private viewSDK: typeof sdk
   private dataSdk: KeystoneSDK
   private networkEnv: Network | undefined
 
@@ -52,9 +51,9 @@ export class KeystoneWallet extends BTCProvider {
     super(option, {})
     initBTCEccLib()
 
-    keystoneViewSDK.bootstrap()
+    curSdk.bootstrap()
 
-    this.viewSDK = keystoneViewSDK
+    this.viewSDK = curSdk
     this.dataSdk = new curKeystoneSDK({
       origin: ''
     })
