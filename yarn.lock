@@ -1064,20 +1064,21 @@
     "@testing-library/dom" "^9.0.0"
     "@types/react-dom" "^18.0.0"
 
-"@tomo-inc/tomo-wallet-provider@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.npmmirror.com/@tomo-inc/tomo-wallet-provider/-/tomo-wallet-provider-1.1.0.tgz#ee916b5664e2bf7f7962961a86e52f3c7a61f917"
-  integrity sha512-aOVGRz2TzmcaccHbCG62iXJMNNmnbOgyPNoSGYXlhT1elvqUTLOGg34SmcgavcXTbPMilwJ9VIew24GF0DAQ0g==
+"@tomo-inc/tomo-wallet-provider@1.1.4":
+  version "1.1.4"
+  resolved "https://registry.npmmirror.com/@tomo-inc/tomo-wallet-provider/-/tomo-wallet-provider-1.1.4.tgz#80e1a1f1902763d4bee05268421bec3fbec984b7"
+  integrity sha512-9cHI92K2yz8tOi+r2FGKFOaloghB2jZ5xsHVAwtJ7x+n1UejUzGbH69P/KfgIbGi2GiAdTGEpp4VuwLQ29NUwg==
   dependencies:
+    buffer "^6.0.3"
     events "^3.3.0"
     long "^5.2.3"
 
-"@tomo-inc/wallet-connect-sdk@^0.3.5":
-  version "0.3.5"
-  resolved "https://registry.npmmirror.com/@tomo-inc/wallet-connect-sdk/-/wallet-connect-sdk-0.3.5.tgz#6941a07a7b5ca814329a885741125c70a842e831"
-  integrity sha512-HDt9H4bsp8hf9KM7ehW3YGffP+AZvMzxz5cqiSixTnGNWIrhDe9gpyVsAshZIJ1IDRfQxstnOMz4NnfQROyonA==
+"@tomo-inc/wallet-connect-sdk@^0.3.8":
+  version "0.3.8"
+  resolved "https://registry.npmmirror.com/@tomo-inc/wallet-connect-sdk/-/wallet-connect-sdk-0.3.8.tgz#625b7181aa9dc8736761d31ac0fab25f222ff372"
+  integrity sha512-Omk9ael4VtdBnVNnlHcAgUkp692oBxmKpTynwtPqZ69D1/vvH2ErdEeX6pyS6hRRvuJn21L9S53MlU3K92E+Og==
   dependencies:
-    "@tomo-inc/tomo-wallet-provider" "1.1.0"
+    "@tomo-inc/tomo-wallet-provider" "1.1.4"
     animate.css "^4.1.1"
     buffer "^6.0.3"
     classnames "^2.5.1"

@@ -24,7 +24,6 @@ import { initBTCEccLib } from '../../../utils/eccLibUtils'
 import { BTCProvider } from '../BTCProvider'
 import { TomoWallet } from '../../../types'
 import keystoneIcon from '../../../icons/keystone.svg'
-import { Buffer } from 'buffer'
 
 type KeystoneWalletInfo = {
   mfp: string | undefined
