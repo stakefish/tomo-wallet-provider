@@ -2,7 +2,6 @@ import { BTCProvider } from './BTCProvider'
 import { getWindow, Network, ProviderOption } from '../../WalletProvider'
 import cosmostationIcon from '../../icons/cosmostation.ico'
 import { TomoWallet } from '../../types'
-export const cosmostationBTCProvider = 'cosmostation.bitcoin'
 export class CosmostationBTCWallet extends BTCProvider {
   constructor(option: ProviderOption) {
     // @ts-ignore
@@ -27,10 +26,10 @@ export class CosmostationBTCWallet extends BTCProvider {
       if (!addresses || addresses.length === 0 || !pubKey) {
         throw new Error('BTC is not enabled in Cosmostation Wallet')
       }
+      return this
     } catch (error) {
       throw new Error('BTC is not enabled in Cosmostation Wallet')
     }
-    return this
   }
   getBalance = async (): Promise<number> => {
     // @ts-ignore
