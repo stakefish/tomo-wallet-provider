@@ -1,4 +1,4 @@
-import { ProviderOption } from '../../WalletProvider'
+import { getWindow, ProviderOption } from '../../WalletProvider'
 import { BTCProvider } from './BTCProvider'
 import leapIcon from '../../icons/leap.jpg'
 import { TomoWallet } from '../../types'
@@ -9,7 +9,7 @@ export class LeapBTCWallet extends BTCProvider {
   constructor(option: ProviderOption) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const bitcoinNetworkProvider = window[LEAP_BTC_WALLET_PROVIDER]
+    const bitcoinNetworkProvider = getWindow(option)?.[LEAP_BTC_WALLET_PROVIDER]
 
     if (!bitcoinNetworkProvider) {
       throw new Error('Leap Wallet extension not found')
