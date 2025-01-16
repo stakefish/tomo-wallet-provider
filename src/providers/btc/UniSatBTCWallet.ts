@@ -7,6 +7,7 @@ import {
 import { BTCProvider } from './BTCProvider'
 import unisatIcon from '../../icons/unisat_wallet.svg'
 import { TomoWallet } from '../../types'
+import { Psbt, address, networks } from 'bitcoinjs-lib'
 
 export const unisatProvider = 'unisat'
 
@@ -63,6 +64,111 @@ export class UniSatBTCWallet extends BTCProvider {
     // @ts-ignore
     return await this.bitcoinNetworkProvider.pushTx(txHex)
   }
+
+  private getSignPsbtDefaultOptions(
+    psbtHex: string,
+    curOption: { curNetwork: Network; curAddress: string; curPublicKey: string }
+  ): any {
+    const toSignInputs: any[] = []
+    const psbt = Psbt.fromHex(psbtHex)
+    const { curNetwork, curPublicKey, curAddress } = curOption
+    psbt.data.inputs.forEach((input, index) => {
+      let useTweakedSigner = false
+      if (input.witnessUtxo && input.witnessUtxo.script) {
+        let btcNetwork = networks.bitcoin
+        if (curNetwork === Network.TESTNET || curNetwork === Network.SIGNET) {
+          btcNetwork = networks.testnet
+        }
+        let addressToBeSigned
+        try {
+          addressToBeSigned = address.fromOutputScript(
+            input.witnessUtxo.script,
+            btcNetwork
+          )
+        } catch (error: Error | any) {
+          if (
+            error instanceof Error &&
+            error.message.toLowerCase().includes('has no matching address')
+          ) {
+            addressToBeSigned = address.fromOutputScript(
+              input.witnessUtxo.script,
+              btcNetwork
+            )
+          } else {
+            throw new Error(error)
+          }
+        }
+        // check if the address is a taproot address
+        const isTaproot =
+          addressToBeSigned.indexOf('tb1p') === 0 ||
+          addressToBeSigned.indexOf('bc1p') === 0
+        // check if the address is the same as the wallet address
+        const isWalletAddress = addressToBeSigned === curAddress
+        // tweak the signer if needed
+        if (isTaproot && isWalletAddress) {
+          useTweakedSigner = true
+        }
+      }
+      const signed = input.finalScriptSig || input.finalScriptWitness
+      if (!signed) {
+        toSignInputs.push({
+          index,
+          publicKey: curPublicKey,
+          sighashTypes: undefined,
+          useTweakedSigner
+        })
+      }
+    })
+    return {
+      autoFinalized: true,
+      toSignInputs
+    }
+  }
+
+  signPsbt = async (psbtHex: string): Promise<string> => {
+    const opt = {
+      curNetwork: await this.getNetwork(),
+      curAddress: await this.getAddress(),
+      curPublicKey: await this.getPublicKeyHex()
+    }
+    if (!opt.curAddress) throw new Error('Unisat Wallet not connected')
+    if (!psbtHex) throw new Error('psbt hex is required')
+
+    try {
+      const signedHex = await this.bitcoinNetworkProvider.signPsbt(
+        psbtHex,
+        // @ts-ignore
+        this.getSignPsbtDefaultOptions(psbtHex, opt)
+      )
+      return signedHex
+    } catch (error: Error | any) {
+      throw new Error(error?.message || error)
+    }
+  }
+
+  signPsbts = async (psbtsHexes: string[]): Promise<string[]> => {
+    const opt = {
+      curNetwork: await this.getNetwork(),
+      curAddress: await this.getAddress(),
+      curPublicKey: await this.getPublicKeyHex()
+    }
+    if (!opt.curAddress) throw new Error('Unisat Wallet not connected')
+    if (!psbtsHexes && !Array.isArray(psbtsHexes))
+      throw new Error('psbts hexes are required')
+
+    try {
+      return await this.bitcoinNetworkProvider.signPsbts(
+        psbtsHexes,
+        // @ts-ignore
+        psbtsHexes.map((psbtHex) =>
+          this.getSignPsbtDefaultOptions(psbtHex, opt)
+        )
+      )
+    } catch (error: Error | any) {
+      throw new Error(error?.message || error)
+    }
+  }
+
   async getInscriptions(
     cursor?: number,
     size?: number
