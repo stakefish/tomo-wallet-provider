@@ -21,10 +21,10 @@ import { cosmostationBTCWalletOption } from 'providers/btc/CosmostationBTCWallet
 
 export {
   okxBTCWalletOption,
+  bitgetBTCWalletOption,
   uniSatBTCWalletOption,
   tomoBTCWalletOption,
   oneKeyBTCWalletOption,
-  bitgetBTCWalletOption,
   cactusLinkBTCWalletOption,
   imTokenBTCWalletOption,
   binanceBTCWalletOption,
@@ -36,22 +36,21 @@ export {
   oneKeyCosmosWalletOption,
   stationCosmosWalletOption,
   leapBtcWalletOptions,
-  cosmostationBTCWalletOption,
-
+  cosmostationBTCWalletOption
 }
 
 export const btcWalletList: TomoWallet[] = [
   okxBTCWalletOption,
+  bitgetBTCWalletOption,
   uniSatBTCWalletOption,
   tomoBTCWalletOption,
   oneKeyBTCWalletOption,
-  bitgetBTCWalletOption,
   cactusLinkBTCWalletOption,
   imTokenBTCWalletOption,
   binanceBTCWalletOption,
   keystoneBTCWalletOption,
   leapBtcWalletOptions,
-  cosmostationBTCWalletOption,
+  cosmostationBTCWalletOption
 ]
 export const cosmosWalletList = [
   keplrCosmosWalletOption,
