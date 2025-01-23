@@ -149,7 +149,7 @@ export class BitgetBTCWallet extends BTCProvider {
 export const bitgetBTCWalletOption = {
   id: 'bitcoin_bitget',
   img: bitgetIcon,
-  name: 'Bitget',
+  name: 'Bitget Wallet',
   chainType: 'bitcoin',
   connectProvider: BitgetBTCWallet,
   type: 'extension'
