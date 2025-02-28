@@ -17,6 +17,7 @@ import {
 } from '@tomo-inc/wallet-connect-sdk/dist/state'
 import '@tomo-inc/wallet-connect-sdk/style.css'
 import { btcWalletList, cosmosWalletList } from '../main'
+import { bbnTestnet } from './cosmosChain/testnet'
 
 // window.injectedTomo = {
 //   info: {
@@ -39,6 +40,19 @@ export default function Demo() {
       style={style}
       // @ts-ignore
       additionalWallets={[...btcWalletList, ...cosmosWalletList]}
+      cosmosChains={[
+        {
+          id: 2,
+          name: bbnTestnet.chainName,
+          type: 'cosmos' as ChainType,
+          network: bbnTestnet.chainId,
+          modularData: bbnTestnet,
+          backendUrls: {
+            rpcUrl: bbnTestnet.rpc
+          },
+          logo: bbnTestnet.chainSymbolImageUrl
+        }
+      ]}
     >
       <ChildComponent style={style} setStyle={setStyle} />
     </TomoContextProvider>
@@ -63,7 +77,7 @@ export function ChildComponent(props: ChildProps) {
   const [cosmosAddress, setCosmosAddress] = useState('')
   const [curChainType, setCurChainType] = useState<ChainType>('bitcoin')
 
-  const sendAtom = async (address: string, amount: string) => {
+  const sendUbbn = async (address: string, amount: string) => {
     if (!providers.cosmosProvider) {
       throw new Error('cosmosProvider not found')
     }
@@ -74,12 +88,12 @@ export function ChildComponent(props: ChildProps) {
       address,
       [
         {
-          denom: 'uatom',
+          denom: 'ubbn',
           amount: amount
         }
       ],
       {
-        amount: [{ denom: 'uatom', amount: '500' }],
+        amount: [{ denom: 'ubbn', amount: '500' }],
         gas: '200000'
       }
     )
@@ -130,21 +144,21 @@ export function ChildComponent(props: ChildProps) {
             <LodingButton
               disabled={!cosmosIsConnect}
               onClick={async () => {
-                await sendAtom(cosmosAddress, '10000')
+                await sendUbbn(cosmosAddress, '10000')
               }}
             >
-              send atom
+              send ubbn
             </LodingButton>
 
             <LodingButton
               disabled={!cosmosIsConnect}
               onClick={async () => {
                 const result =
-                  await providers.cosmosProvider?.getBalance('uatom')
-                console.log('cosmos balance', result)
+                  await providers.cosmosProvider?.getBalance('ubbn')
+                console.log('ubbn balance', result)
               }}
             >
-              cosmosProvider.getBalance('uatom')
+              cosmosProvider.getBalance('ubbn')
             </LodingButton>
 
             <div className={'tm-w-full'} />
