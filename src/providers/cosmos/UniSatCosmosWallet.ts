@@ -20,12 +20,14 @@ export class UniSatCosmosWallet extends CosmosProvider {
   }
   on(eventName: string, callBack: () => void) {
     if (eventName === 'accountChanged') {
+      // @ts-ignore
       const unisat = getWindow(this.option)?.unisat
       unisat?.on?.('accountsChanged', callBack)
     }
   }
   off(eventName: string, callBack: () => void) {
     if (eventName === 'accountChanged') {
+      // @ts-ignore
       const unisat = getWindow(this.option)?.unisat
       unisat?.on?.('accountsChanged', callBack)
     }
