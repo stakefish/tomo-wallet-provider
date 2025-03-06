@@ -18,6 +18,18 @@ export class UniSatCosmosWallet extends CosmosProvider {
   getWalletProviderIcon(): Promise<string> {
     return Promise.resolve(uniSatCosmosWalletOption.img)
   }
+  on(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      const unisat = getWindow(this.option)?.unisat
+      unisat?.on?.('accountsChanged', callBack)
+    }
+  }
+  off(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      const unisat = getWindow(this.option)?.unisat
+      unisat?.on?.('accountsChanged', callBack)
+    }
+  }
 }
 
 export const uniSatCosmosWalletOption = {

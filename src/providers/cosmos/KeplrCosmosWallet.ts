@@ -20,6 +20,17 @@ export class KeplrCosmosWallet extends CosmosProvider {
   getWalletProviderIcon(): Promise<string> {
     return Promise.resolve(keplrCosmosWalletOption.img)
   }
+
+  on(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.addEventListener('keplr_keystorechange', callBack)
+    }
+  }
+  off(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.removeEventListener('keplr_keystorechange', callBack)
+    }
+  }
 }
 
 export const keplrCosmosWalletOption = {

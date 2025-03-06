@@ -18,6 +18,16 @@ export class LeapCosmosWallet extends CosmosProvider {
   getWalletProviderIcon(): Promise<string> {
     return Promise.resolve(leapCosmosWalletOption.img)
   }
+  on(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.addEventListener('leap_keystorechange', callBack)
+    }
+  }
+  off(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.removeEventListener('leap_keystorechange', callBack)
+    }
+  }
 }
 
 export const leapCosmosWalletOption = {

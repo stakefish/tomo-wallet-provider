@@ -18,6 +18,16 @@ export class BitgetCosmosWallet extends CosmosProvider {
   getWalletProviderIcon(): Promise<string> {
     return Promise.resolve(bitgetCosmosWalletOption.img)
   }
+  on(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.addEventListener('bitget_keystorechange', callBack)
+    }
+  }
+  off(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.removeEventListener('bitget_keystorechange', callBack)
+    }
+  }
 }
 
 export const bitgetCosmosWalletOption = {

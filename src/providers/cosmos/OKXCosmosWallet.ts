@@ -18,6 +18,16 @@ export class OKXCosmosWallet extends CosmosProvider {
   getWalletProviderIcon(): Promise<string> {
     return Promise.resolve(okxCosmosWalletOption.img)
   }
+  on(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.addEventListener('okx_keystorechange', callBack)
+    }
+  }
+  off(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.removeEventListener('okx_keystorechange', callBack)
+    }
+  }
 }
 
 export const okxCosmosWalletOption = {

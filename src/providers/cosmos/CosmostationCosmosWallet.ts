@@ -18,6 +18,16 @@ export class CosmostationCosmosWallet extends CosmosProvider {
   getWalletProviderIcon(): Promise<string> {
     return Promise.resolve(cosmostationCosmosWalletOption.img)
   }
+  on(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.addEventListener('cosmostation_keystorechange', callBack)
+    }
+  }
+  off(eventName: string, callBack: () => void) {
+    if (eventName === 'accountChanged') {
+      window.removeEventListener('cosmostation_keystorechange', callBack)
+    }
+  }
 }
 
 export const cosmostationCosmosWalletOption = {

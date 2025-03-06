@@ -147,4 +147,19 @@ export abstract class CosmosProvider extends WalletProvider {
     const curChainId = await this.getNetwork()
     return this.provider.getOfflineSigner(curChainId)
   }
+
+  /**
+   * Registers an event listener for the specified event.
+   * At the moment, only the "accountChanged" event is supported.
+   * @param eventName - The name of the event to listen for.
+   * @param callBack - The callback function to be executed when the event occurs.
+   */
+  on(eventName: string, callBack: () => void) {}
+
+  /**
+   * Unregisters an event listener for the specified event.
+   * @param eventName - The name of the event to listen for.
+   * @param callBack - The callback function to be executed when the event occurs.
+   */
+  off(eventName: string, callBack: () => void) {}
 }
