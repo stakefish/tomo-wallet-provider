@@ -13,7 +13,6 @@ type XverseAddress = {
 }
 
 export class XverseBTCWallet extends BTCProvider {
-  private addressInfo?: XverseAddress
   constructor(option: ProviderOption) {
     const win = getWindow(option)
     // @ts-ignore
@@ -59,41 +58,34 @@ export class XverseBTCWallet extends BTCProvider {
     if (!resultAddresses.addresses?.length) {
       throw new Error('Failed to connect to Xverse Wallet')
     }
-    return resultAddresses.addresses[0] as {
-      address: string
-      publicKey: string
-    }
+    return resultAddresses.addresses[0] as XverseAddress
   }
 
   connectWallet = async (): Promise<this> => {
-    if (this.addressInfo) {
+    try {
+      const permissions = await this.request('wallet_getCurrentPermissions')
+      if (!permissions.length) {
+        throw new Error('No permissions found.')
+      }
+      return this
+    } catch (e) {
+      const response = await this.request('wallet_connect')
+      if (
+        !response.addresses?.length ||
+        !response.addresses.some((e: XverseAddress) => e.purpose === 'ordinals')
+      ) {
+        throw new Error('Failed to connect to Xverse Wallet')
+      }
       return this
     }
-    const response = await this.request('wallet_connect')
-    if (
-      !response.addresses?.length ||
-      !response.addresses.some((e: XverseAddress) => e.purpose === 'ordinals')
-    ) {
-      throw new Error('Failed to connect to Xverse Wallet')
-    }
-    this.addressInfo = response.addresses.find(
-      (e: XverseAddress) => e.purpose === 'ordinals'
-    )
-    return this
   }
 
   async getAddress(): Promise<string> {
-    if (!this.addressInfo) {
-      throw new Error('Please connect your wallet first.')
-    }
-    return this.addressInfo.address
+    return (await this.getConnectionInfo()).address
   }
 
   async getPublicKeyHex(): Promise<string> {
-    if (!this.addressInfo) {
-      throw new Error('Please connect your wallet first.')
-    }
-    const publicKey = this.addressInfo.publicKey
+    const publicKey = (await this.getConnectionInfo()).publicKey
     if (publicKey.length === 64) {
       return '03' + publicKey
     }
