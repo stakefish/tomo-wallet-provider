@@ -21,9 +21,10 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "events": "^3.3.0",
-    "long": "^5.2.3",
-    "buffer": "^6.0.3"
+    "jsontokens": "^4.0.1",
+    "long": "^5.2.3"
   },
   "peerDependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
