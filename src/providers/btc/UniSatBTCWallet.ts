@@ -9,12 +9,10 @@ import unisatIcon from '../../icons/unisat_wallet.svg'
 import { TomoWallet } from '../../types'
 import { Psbt, address, networks } from 'bitcoinjs-lib'
 
-export const unisatProvider = 'unisat'
-
 export class UniSatBTCWallet extends BTCProvider {
   constructor(option: ProviderOption) {
     // @ts-ignore
-    const bitcoinNetworkProvider = getWindow(option)[unisatProvider]
+    const bitcoinNetworkProvider = getWindow(option).unisat_wallet
     if (!bitcoinNetworkProvider) {
       throw new Error('UniSat Wallet extension not found')
     }
