@@ -6,7 +6,7 @@ import unisatIcon from '../../icons/unisat_wallet.svg'
 export class UniSatCosmosWallet extends CosmosProvider {
   constructor(option: ProviderOption) {
     // @ts-ignore
-    const provider = getWindow(option)?.unisat?.keplr
+    const provider = getWindow(option)?.unisat_wallet?.keplr
     if (!provider) {
       throw new Error('UniSat Wallet extension not found')
     }
