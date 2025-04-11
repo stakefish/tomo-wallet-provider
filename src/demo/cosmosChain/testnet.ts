@@ -1,4 +1,5 @@
-export const BBN_TESTNET_RPC_URL = 'https://babylon-testnet-rpc.polkachu.com/'
+export const BBN_TESTNET_RPC_URL =
+  'https://babylon-testnet-rpc.contributiondao.com/'
 export const BBN_TESTNET_LCD_URL = 'https://babylon-testnet-api.nodes.guru/'
 
 export const bbnTestnet = {

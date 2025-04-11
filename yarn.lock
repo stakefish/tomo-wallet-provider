@@ -456,6 +456,14 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@keplr-wallet/proto-types@^0.12.216":
+  version "0.12.216"
+  resolved "https://registry.npmmirror.com/@keplr-wallet/proto-types/-/proto-types-0.12.216.tgz#3a6afa7c37c875089649e1a710014cbc03ff347d"
+  integrity sha512-P7kTLBYpN3woNJqktn2YVCoqjoi6yo+ysXBxdb2Lx0EkxQQ5jHjNq4XxxLHbTYiFTpM2/DerbTUbuT64m6AA4Q==
+  dependencies:
+    long "^4.0.0"
+    protobufjs "^6.11.2"
+
 "@keplr-wallet/types@^0.12.130":
   version "0.12.148"
   resolved "https://registry.npmmirror.com/@keplr-wallet/types/-/types-0.12.148.tgz#86f9b0e6aa2c0f09066c080c15d2cc7038ce6146"
@@ -1069,21 +1077,22 @@
     "@testing-library/dom" "^9.0.0"
     "@types/react-dom" "^18.0.0"
 
-"@tomo-inc/tomo-wallet-provider@1.1.9":
-  version "1.1.9"
-  resolved "https://registry.npmmirror.com/@tomo-inc/tomo-wallet-provider/-/tomo-wallet-provider-1.1.9.tgz#8ecac699c226abd93369a9a48aab962f0d14e8e1"
-  integrity sha512-82jKjCFtYYAxFo4Pm7KOB/ltNpTsX6g/1I9GvjkNYPVNyLbgGce+7kYsnwFfCdDh3yyvb+ZYehl3fVY78p2KOQ==
+"@tomo-inc/tomo-wallet-provider@1.1.12":
+  version "1.1.12"
+  resolved "https://registry.npmmirror.com/@tomo-inc/tomo-wallet-provider/-/tomo-wallet-provider-1.1.12.tgz#01ed23d8d5d3acff50297262cbc823c9c631fffc"
+  integrity sha512-rrrlLst9GepbdfSJ1nLp18YcvvsMEgkaHZyO3VGvWR9dLJSBkGzNtHkEincEJEbQ8kbAbuKMne+sw+SwzJQM9Q==
   dependencies:
     buffer "^6.0.3"
     events "^3.3.0"
+    jsontokens "^4.0.1"
     long "^5.2.3"
 
-"@tomo-inc/wallet-connect-sdk@^0.3.12":
-  version "0.3.12"
-  resolved "https://registry.npmmirror.com/@tomo-inc/wallet-connect-sdk/-/wallet-connect-sdk-0.3.12.tgz#78533b4e1fbad34587c1d60aca3b6243898791b0"
-  integrity sha512-XL8FL+RoIbDxFTCNXWNHvovOb/yHzss53R/5fDDRA31884eIA1cDiIu5HvJbHS8H5C/VxPZjasSbptpF+GnfVg==
+"@tomo-inc/wallet-connect-sdk@^0.3.17":
+  version "0.3.17"
+  resolved "https://registry.npmmirror.com/@tomo-inc/wallet-connect-sdk/-/wallet-connect-sdk-0.3.17.tgz#f69dadfd4c593a0ba8b83d9aa4183f005db2d0cc"
+  integrity sha512-gX/u1q7dptFlKADuHk9qUGyp+EeBlOLGJ8fiLw7j3g/ZF8xvMj5QjVnEXB6QlkAsKOvW7kht6FYomNGdjuuT5w==
   dependencies:
-    "@tomo-inc/tomo-wallet-provider" "1.1.9"
+    "@tomo-inc/tomo-wallet-provider" "1.1.12"
     animate.css "^4.1.1"
     buffer "^6.0.3"
     classnames "^2.5.1"
@@ -3899,7 +3908,7 @@ prop-types@^15.7.2, prop-types@^15.8.1:
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
-protobufjs@^6.8.8:
+protobufjs@^6.11.2, protobufjs@^6.8.8:
   version "6.11.4"
   resolved "https://registry.npmmirror.com/protobufjs/-/protobufjs-6.11.4.tgz#29a412c38bf70d89e537b6d02d904a6f448173aa"
   integrity sha512-5kQWPaJHi1WoCpjTGszzQ32PG2F4+wRY6BmAT4Vfw56Q2FZ4YZzK20xUYQH4YkfehY1e6QSICrJquM6xXZNcrw==

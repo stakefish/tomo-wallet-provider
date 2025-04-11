@@ -18,6 +18,9 @@ import {
 import '@tomo-inc/wallet-connect-sdk/style.css'
 import { btcWalletList, cosmosWalletList } from '../main'
 import { bbnTestnet } from './cosmosChain/testnet'
+// import { bbn1 } from './cosmosChain/bbn1'
+
+const curCosmosChain = bbnTestnet
 
 // window.injectedTomo = {
 //   info: {
@@ -43,14 +46,14 @@ export default function Demo() {
       cosmosChains={[
         {
           id: 2,
-          name: bbnTestnet.chainName,
+          name: curCosmosChain.chainName,
           type: 'cosmos' as ChainType,
-          network: bbnTestnet.chainId,
-          modularData: bbnTestnet,
+          network: curCosmosChain.chainId,
+          modularData: curCosmosChain,
           backendUrls: {
-            rpcUrl: bbnTestnet.rpc
+            rpcUrl: curCosmosChain.rpc
           },
-          logo: bbnTestnet.chainSymbolImageUrl
+          logo: curCosmosChain.chainSymbolImageUrl
         }
       ]}
     >
@@ -275,6 +278,23 @@ export function ChildComponent(props: ChildProps) {
               cosmos
             </LodingButton>
           </div>
+          <LodingButton
+            disabled={!btcIsConnect}
+            onClick={async () => {
+              try {
+                const result = await providers.bitcoinProvider?.signMessage(
+                  '11',
+                  'bip322-simple'
+                )
+                console.log('btc signMessage bip322-simple', result)
+                alert(`btc signMessage bip322-simple: ${result}`)
+              } catch (e) {
+                console.log(e)
+              }
+            }}
+          >
+            btc signMessage('11', 'bip322-simple')
+          </LodingButton>
           <div>
             <LodingButton
               onClick={() => {

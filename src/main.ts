@@ -20,6 +20,7 @@ import { bitgetCosmosWalletOption } from './providers/cosmos/BitgetCosmosWallet'
 import { uniSatCosmosWalletOption } from './providers/cosmos/UniSatCosmosWallet'
 import { xverseBTCWalletOption } from 'providers/btc/XverseBTCWallet'
 import { keplrBTCWalletOption } from 'providers/btc/KeplrBTCWallet'
+import { keystoneCosmosWalletOption } from 'providers/cosmos/keystone'
 import { tomoCosmosWalletOption } from 'providers/cosmos/TomoCosmosWallet'
 
 // Special case for the browser wallet. i.e injected wallet
@@ -44,6 +45,7 @@ export {
   leapBtcWalletOptions,
   cosmostationBTCWalletOption,
   xverseBTCWalletOption,
+  keystoneCosmosWalletOption,
   tomoCosmosWalletOption
 }
 
@@ -71,7 +73,8 @@ export const cosmosWalletList = [
   cosmostationCosmosWalletOption,
   leapCosmosWalletOption,
   oneKeyCosmosWalletOption,
-  stationCosmosWalletOption
+  stationCosmosWalletOption,
+  keystoneCosmosWalletOption
 ]
 
 export * from './WalletProvider'

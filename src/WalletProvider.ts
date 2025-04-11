@@ -70,6 +70,9 @@ export type WalletInfo = {
 export type TomoChain = {
   network: string
   backendUrls?: Record<string, string>
+  // This parameter is only for the Cosmos chain. When the wallet does not have the current chain, it will attempt to use this object to add the chain. The format can be referenced from:
+  // https://github.com/chainapsis/keplr-chain-registry/tree/main/cosmos
+  modularData?: ChainInfo
 }
 
 export type TomoChainBTC = TomoChain & {
