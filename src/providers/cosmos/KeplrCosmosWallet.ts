@@ -2,6 +2,7 @@ import { CosmosProvider } from './CosmosProvider'
 import { getWindow, ProviderOption } from '../../WalletProvider'
 import { TomoWallet } from '../../types'
 import keplrIcon from '../../icons/keplr_wallet.png'
+import { Keplr } from '@keplr-wallet/provider-extension'
 
 const providerName = 'keplr'
 export class KeplrCosmosWallet extends CosmosProvider {
@@ -13,6 +14,13 @@ export class KeplrCosmosWallet extends CosmosProvider {
       throw new Error('Keplr Wallet extension not found')
     }
     super(option, provider)
+  }
+  async init() {
+    const keplr = await Keplr.getKeplr()
+    if (!keplr) {
+      throw new Error('Keplr Wallet extension not found')
+    }
+    this.provider = keplr
   }
   getWalletProviderName(): Promise<string> {
     return Promise.resolve(keplrCosmosWalletOption.name)

@@ -132,6 +132,12 @@ export abstract class WalletProvider {
     this.chains = option.chains
     this.option = option
   }
+
+  // If constructor or init throws an exception, the wallet will be considered not installed.
+  // This method is used to handle asynchronous initialization
+  init(): Promise<void> {
+    return Promise.resolve()
+  }
   /**
    * Connects to the wallet and returns the instance of the wallet provider.
    * Currently only supports "native segwit" and "taproot" address types.

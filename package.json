@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@keplr-wallet/proto-types": "^0.12.216",
+    "@keplr-wallet/provider-extension": "^0.12.220",
     "buffer": "^6.0.3",
     "events": "^3.3.0",
     "jsontokens": "^4.0.1",
@@ -50,7 +51,7 @@
     "@scure/bip32": "^1.4.0",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^14.3.1",
-    "@tomo-inc/wallet-connect-sdk": "^0.3.17",
+    "@tomo-inc/wallet-connect-sdk": "^0.3.19",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

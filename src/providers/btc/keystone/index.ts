@@ -80,8 +80,8 @@ export class KeystoneWallet extends BTCProvider {
           walletMode: 'btc',
           link: '',
           description: [
-            '1. Turn on your Keystone 3 with BTC only firmware.',
-            '2. Click connect software wallet and use "Sparrow" for connection.',
+            '1. Turn on your Keystone 3 with Multi-Coin firmware or BTC only firmware.',
+            '2. Click "Connect Software Wallet" and choose "Babylon" or "Sparrow" for connection.',
             '3. Press the "Sync Keystone" button and scan the QR Code displayed on your Keystone hardware wallet',
             '4. The first Taproot address will be used for staking.'
           ]
