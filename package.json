@@ -18,7 +18,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "postinstall": "tsc && vite build"
   },
   "dependencies": {
     "@keplr-wallet/proto-types": "^0.12.216",
